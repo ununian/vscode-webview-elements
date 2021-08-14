@@ -20,8 +20,10 @@
     "eleventy:watch": "eleventy --config=.eleventy.cjs --watch",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint src/**/*.ts",
-    "lint:lit-analyzer": "lit-analyzer",
-    "format": "prettier src/**/* --write",
+    "lint:lit-analyzer": "lit-analyzer src",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "format:prettier": "prettier src/**/* --write --ignore-path .gitignore",
+    "format:eslint": "eslint src/**/*.ts --fix --ignore-path .gitignore",
     "docs": "npm run docs:clean && npm run build:bundle && npm run analyze && cross-env NODE_ENV=production npm run eleventy",
     "docs:clean": "rimraf docs",
     "docs:start": "npm run docs:clean && npm run build && npm run analyze && cross-env NODE_ENV=development eleventy --config=.eleventy.cjs --serve --port=8081",
@@ -32,7 +34,16 @@
     "test:watch": "wtr --watch",
     "checksize": "npm run build:bundle && cat dist/bundled.js | gzip -9 | wc -c",
     "generate": "node scripts/generateComponent.js",
-    "icons": "node scripts/generateIconList.js"
+    "icons": "node scripts/generateIconList.js",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": "npm run lint"
   },
   "keywords": [
     "web-components",
@@ -60,6 +71,7 @@
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
     "@esm-bundle/chai": "^4.3.4-fix.0",
     "@gerhobbelt/markdown-it-github-headings": "^2.0.0-2",
+    "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "^2.5.33",
     "@open-wc/testing-karma": "^4.0.9",
     "@rollup/plugin-alias": "^3.1.3",
@@ -84,6 +96,8 @@
     "dotenv": "^10.0.0",
     "eslint": "^7.30.0",
     "faker": "^5.5.3",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.2",
     "lit-analyzer": "^1.2.1",
     "markdown-it": "^11.0.1",
     "markdown-it-anchor": "^8.1.0",
