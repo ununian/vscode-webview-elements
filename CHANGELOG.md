@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+
+### Added
+
+- Add ability to styling the uninitialized components with the `vsc-cloak` attribute.
+- Every component respects the hidden attribute according to Google [recommendations](https://developers.google.com/web/fundamentals/web-components/best-practices).
+
+### Changed
+
+- lit-element upgraded to lit2
+
 ## [0.6.2] - 2021-08-04
 
 ### Fixed
