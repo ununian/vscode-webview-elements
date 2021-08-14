@@ -1,12 +1,14 @@
-import {CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {property, query, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
+import {
+  CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { property, query, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
 import '../../vscode-button';
-import {VscodeOption} from '../../vscode-option';
+import { VscodeOption } from '../../vscode-option';
 import dropdownStyles from './styles';
-import {InternalOption, Option, SearchMethod} from './types';
-import {filterOptionsByPattern} from './helpers';
-import {VscElement} from '../VscElement';
+import { InternalOption, Option, SearchMethod } from './types';
+import { filterOptionsByPattern } from './helpers';
+import { VscElement } from '../VscElement';
 
 interface OptionListStat {
   selectedIndexes: number[];
@@ -18,13 +20,13 @@ const OPT_HEIGHT = 19;
 const LIST_HEIGHT = 194;
 
 export class VscodeSelectBase extends VscElement {
-  @property({type: String, reflect: true, attribute: 'aria-expanded'})
+  @property({ type: String, reflect: true, attribute: 'aria-expanded' })
   ariaExpanded = 'false';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   combobox = false;
 
-  @property({type: Boolean, reflect: true, attribute: 'data-cloak'})
+  @property({ type: Boolean, reflect: true, attribute: 'data-cloak' })
   dataCloak = false;
 
   /**
@@ -33,14 +35,9 @@ export class VscodeSelectBase extends VscElement {
    * @attr [filter=fuzzy]
    * @type {"fuzzy"|"contains"|"startsWith"|"startsWithPerTerm"}
    */
-  @property({type: String})
+  @property({ type: String })
   set filter(val: string) {
-    const validValues: SearchMethod[] = [
-      'contains',
-      'fuzzy',
-      'startsWith',
-      'startsWithPerTerm',
-    ];
+    const validValues: SearchMethod[] = ['contains', 'fuzzy', 'startsWith', 'startsWithPerTerm'];
 
     if (validValues.includes(val as SearchMethod)) {
       this._filter = val as SearchMethod;
@@ -48,27 +45,31 @@ export class VscodeSelectBase extends VscElement {
       this._filter = 'fuzzy';
       console.warn(
         `[VSCode Webview Elements] Invalid filter: "${val}", fallback to default. Valid values are: "contains", "fuzzy", "startsWith", "startsWithPerm".`,
-        this
+        this,
       );
     }
   }
+
   get filter(): string {
     return this._filter;
   }
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   focused = false;
 
   /**
    * @attr [options=[]]
    * @type {Option[]}
    */
-  @property({type: Array})
+  @property({ type: Array })
   set options(opts: Option[]) {
-    this._options = opts.map((op, index) => ({...op, index}));
+    this._options = opts.map((op, index) => ({ ...op, index }));
   }
+
   get options(): Option[] {
-    return this._options.map(({label, value, description, selected}) => ({
+    return this._options.map(({
+      label, value, description, selected,
+    }) => ({
       label,
       value,
       description,
@@ -76,7 +77,7 @@ export class VscodeSelectBase extends VscElement {
     }));
   }
 
-  @property({type: Number, attribute: true, reflect: true})
+  @property({ type: Number, attribute: true, reflect: true })
   tabindex = 0;
 
   connectedCallback(): void {
@@ -109,11 +110,7 @@ export class VscodeSelectBase extends VscElement {
       return this._options;
     }
 
-    return filterOptionsByPattern(
-      this._options,
-      this._filterPattern,
-      this._filter
-    );
+    return filterOptionsByPattern(this._options, this._filterPattern, this._filter);
   }
 
   @state()
@@ -147,6 +144,7 @@ export class VscodeSelectBase extends VscElement {
   private _listElement!: HTMLUListElement;
 
   protected _multiple = false;
+
   private _isHoverForbidden = false;
 
   protected get _currentOptions(): InternalOption[] {
@@ -163,25 +161,15 @@ export class VscodeSelectBase extends VscElement {
     };
 
     nodes.forEach((el: Node) => {
-      if (
-        !(
-          el.nodeType === Node.ELEMENT_NODE &&
-          (el as Element).matches('vscode-option')
-        )
-      ) {
+      if (!(el.nodeType === Node.ELEMENT_NODE && (el as Element).matches('vscode-option'))) {
         return;
       }
 
       const {
-        innerText,
-        value: elValue,
-        description,
-        selected,
+        innerText, value: elValue, description, selected,
       } = el as VscodeOption;
 
-      const value = (el as VscodeOption).hasAttribute('value')
-        ? elValue
-        : innerText;
+      const value = (el as VscodeOption).hasAttribute('value') ? elValue : innerText;
 
       const op: InternalOption = {
         label: innerText,
@@ -214,9 +202,7 @@ export class VscodeSelectBase extends VscElement {
       if (this._activeIndex > VISIBLE_OPTS - 1) {
         await this.updateComplete;
 
-        this._listElement.scrollTop = Math.floor(
-          this._activeIndex * OPT_HEIGHT
-        );
+        this._listElement.scrollTop = Math.floor(this._activeIndex * OPT_HEIGHT);
       }
     }
 
@@ -235,7 +221,7 @@ export class VscodeSelectBase extends VscElement {
             selectedIndex: this._selectedIndex,
             value: this._value,
           },
-        })
+        }),
       );
     } else {
       this.dispatchEvent(
@@ -244,7 +230,7 @@ export class VscodeSelectBase extends VscElement {
             selectedIndexes: this._selectedIndexes,
             value: this._values,
           },
-        })
+        }),
       );
     }
   }
@@ -259,7 +245,7 @@ export class VscodeSelectBase extends VscElement {
 
   protected _onClickOutside(event: MouseEvent): void {
     const path = event.composedPath();
-    const found = path.findIndex((et) => et === this);
+    const found = path.findIndex(et => et === this);
 
     if (found === -1) {
       this._toggleDropdown(false);
@@ -306,9 +292,7 @@ export class VscodeSelectBase extends VscElement {
       return;
     }
 
-    this._activeIndex = Number(
-      this.combobox ? el.dataset.filteredIndex : el.dataset.index
-    );
+    this._activeIndex = Number(this.combobox ? el.dataset.filteredIndex : el.dataset.index);
   }
 
   protected _onEnterKeyDown(): void {
@@ -317,11 +301,7 @@ export class VscodeSelectBase extends VscElement {
 
     this._toggleDropdown(showDropdownNext);
 
-    if (
-      !this._multiple &&
-      !showDropdownNext &&
-      this._selectedIndex !== this._activeIndex
-    ) {
+    if (!this._multiple && !showDropdownNext && this._selectedIndex !== this._activeIndex) {
       this._selectedIndex = list[this._activeIndex].index;
       this._value = this._options[this._selectedIndex].value;
       this._dispatchChangeEvent();
@@ -352,12 +332,12 @@ export class VscodeSelectBase extends VscElement {
 
     if (this._showDropdown && this._multiple && this._activeIndex > -1) {
       const opts = this.combobox ? this._filteredOptions : this._options;
-      const {selected} = opts[this._activeIndex];
+      const { selected } = opts[this._activeIndex];
 
       opts[this._activeIndex].selected = !selected;
       this._selectedIndexes = [];
 
-      opts.forEach(({index, selected}) => {
+      opts.forEach(({ index, selected }) => {
         if (selected) {
           this._selectedIndexes.push(index);
         }
@@ -370,9 +350,7 @@ export class VscodeSelectBase extends VscElement {
   }
 
   private async _adjustOptionListScrollPos(direction: 'down' | 'up') {
-    const numOpts = this.combobox
-      ? this._filteredOptions.length
-      : this._options.length;
+    const numOpts = this.combobox ? this._filteredOptions.length : this._options.length;
 
     if (numOpts <= VISIBLE_OPTS) {
       return;
@@ -390,8 +368,7 @@ export class VscodeSelectBase extends VscElement {
 
     if (direction === 'down') {
       if (liPosY + OPT_HEIGHT >= LIST_HEIGHT + ulScrollTop) {
-        this._listElement.scrollTop =
-          (this._activeIndex - (VISIBLE_OPTS - 1)) * OPT_HEIGHT;
+        this._listElement.scrollTop = (this._activeIndex - (VISIBLE_OPTS - 1)) * OPT_HEIGHT;
       }
     }
 
@@ -469,11 +446,7 @@ export class VscodeSelectBase extends VscElement {
       this._values = stat.values;
     }
 
-    if (
-      !this._multiple &&
-      !this.combobox &&
-      stat.selectedIndexes.length === 0
-    ) {
+    if (!this._multiple && !this.combobox && stat.selectedIndexes.length === 0) {
       this._selectedIndex = 0;
     }
   }
@@ -497,11 +470,9 @@ export class VscodeSelectBase extends VscElement {
       return nothing;
     }
 
-    const {description} = this._options[this._activeIndex];
+    const { description } = this._options[this._activeIndex];
 
-    return description
-      ? html`<div class="description">${description}</div>`
-      : nothing;
+    return description ? html`<div class="description">${description}</div>` : nothing;
   }
 
   protected _renderSelectFace(): TemplateResult {
@@ -523,9 +494,8 @@ export class VscodeSelectBase extends VscElement {
     };
 
     return html`
-      <div class="${classMap(classes)}">
-        ${this._renderOptions()} ${this._renderDropdownControls()}
-        ${this._renderDescription()}
+      <div class=${classMap(classes)}>
+        ${this._renderOptions()} ${this._renderDropdownControls()} ${this._renderDescription()}
       </div>
     `;
   }
@@ -536,7 +506,7 @@ export class VscodeSelectBase extends VscElement {
 
   render(): TemplateResult {
     return html`
-      <slot class="main-slot" @slotchange="${this._onSlotChange}"></slot>
+      <slot class="main-slot" @slotchange=${this._onSlotChange}></slot>
       ${this.combobox ? this._renderComboboxFace() : this._renderSelectFace()}
       ${this._showDropdown ? this._renderDropdown() : nothing}
     `;

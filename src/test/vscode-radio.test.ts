@@ -1,5 +1,5 @@
-import {VscodeRadio} from '../vscode-radio';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeRadio } from '../vscode-radio';
 
 describe('vscode-radio', () => {
   it('is defined', () => {

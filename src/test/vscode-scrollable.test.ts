@@ -1,5 +1,5 @@
-import {VscodeScrollable} from '../vscode-scrollable';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeScrollable } from '../vscode-scrollable';
 
 describe('vscode-scrollable', () => {
   it('is defined', () => {

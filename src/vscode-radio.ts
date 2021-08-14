@@ -1,17 +1,18 @@
-import {html, TemplateResult, CSSResultGroup} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {FormButtonWidgetBase} from './includes/form-button-widget/FormButtonWidgetBase';
+import { html, TemplateResult, CSSResultGroup } from 'lit';
+import { customElement, property, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { FormButtonWidgetBase } from './includes/form-button-widget/FormButtonWidgetBase';
 import baseStyles from './includes/form-button-widget/base.styles';
 import radioStyles from './includes/form-button-widget/radio.styles';
 import formHelperTextStyles from './includes/formHelperTextStyles';
 
 @customElement('vscode-radio')
 export class VscodeRadio extends FormButtonWidgetBase {
-  @property({type: Boolean})
+  @property({ type: Boolean })
   set checked(val: boolean) {
     this._checked = val;
   }
+
   get checked(): boolean {
     return this._checked;
   }
@@ -25,7 +26,7 @@ export class VscodeRadio extends FormButtonWidgetBase {
   @property()
   value = '';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   disabled = false;
 
   @state()
@@ -35,14 +36,14 @@ export class VscodeRadio extends FormButtonWidgetBase {
   private isSlotEmpty = true;
 
   private _checkButton() {
-    const root = this.getRootNode({composed: true}) as Document | ShadowRoot;
+    const root = this.getRootNode({ composed: true }) as Document | ShadowRoot;
 
     if (!root) {
       return;
     }
 
     const radios = root.querySelectorAll(
-      `vscode-radio[name="${this.name}"]`
+      `vscode-radio[name="${this.name}"]`,
     ) as NodeListOf<VscodeRadio>;
     this._checked = true;
 
@@ -69,7 +70,7 @@ export class VscodeRadio extends FormButtonWidgetBase {
         },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -102,17 +103,17 @@ export class VscodeRadio extends FormButtonWidgetBase {
     return html`
       <div class="wrapper">
         <input
-          id="${this._uid}"
+          id=${this._uid}
           class="radio"
           type="checkbox"
-          ?checked="${this.checked}"
-          value="${this.value}"
+          ?checked=${this.checked}
+          .value=${this.value}
           tabindex="-1"
         />
-        <div class="${classMap(iconClasses)}"></div>
-        <label for="${this._uid}" class="label" @click="${this._handleClick}">
-          <span class="${classMap(labelInnerClasses)}">
-            <slot @slotchange="${this._handleSlotChange}">${this.label}</slot>
+        <div class=${classMap(iconClasses)}></div>
+        <label for=${this._uid} class="label" @click=${this._handleClick}>
+          <span class=${classMap(labelInnerClasses)}>
+            <slot @slotchange=${this._handleSlotChange}>${this.label}</slot>
           </span>
         </label>
       </div>

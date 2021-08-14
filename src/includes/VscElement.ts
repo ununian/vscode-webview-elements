@@ -1,4 +1,4 @@
-import {css, CSSResultGroup, LitElement} from 'lit';
+import { css, CSSResultGroup, LitElement } from 'lit';
 
 export class VscElement extends LitElement {
   connectedCallback(): void {

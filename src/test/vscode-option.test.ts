@@ -1,5 +1,5 @@
-import {VscodeOption} from '../vscode-option';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeOption } from '../vscode-option';
 
 describe('vscode-option', () => {
   it('is defined', () => {

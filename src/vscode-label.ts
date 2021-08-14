@@ -1,7 +1,9 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {INPUT_LINE_HEIGHT_RATIO} from './includes/helpers';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { INPUT_LINE_HEIGHT_RATIO } from './includes/helpers';
+import { VscElement } from './includes/VscElement';
 
 interface FocusableElement extends Element {
   focus: () => void;
@@ -50,7 +52,7 @@ export class VscodeLabel extends VscElement {
     let target;
 
     if (this.for) {
-      const root = this.getRootNode({composed: true}) as Document | ShadowRoot;
+      const root = this.getRootNode({ composed: true }) as Document | ShadowRoot;
 
       if (root) {
         target = root.querySelector(`#${this.for}`);
@@ -63,9 +65,7 @@ export class VscodeLabel extends VscElement {
   }
 
   render(): TemplateResult {
-    return html`
-      <div class="wrapper" @click=${this._handleClick}><slot></slot></div>
-    `;
+    return html` <div class="wrapper" @click=${this._handleClick}><slot></slot></div> `;
   }
 }
 

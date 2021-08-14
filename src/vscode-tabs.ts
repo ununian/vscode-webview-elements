@@ -1,20 +1,25 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-tabs')
 export class VscodeTabs extends VscElement {
-  @property({type: Number})
+  @property({ type: Number })
   set selectedIndex(index: number) {
     this._selectedIndex = index;
     this._setActiveTab();
   }
+
   get selectedIndex(): number {
     return this._selectedIndex;
   }
 
   private _headerSlot: HTMLSlotElement | null = null;
+
   private _mainSlot: HTMLSlotElement | null = null;
+
   private _selectedIndex: number;
 
   constructor() {
@@ -28,16 +33,13 @@ export class VscodeTabs extends VscElement {
     }
 
     Array.from(this._mainSlot.assignedElements()).forEach((el: Element, i) => {
-      (el as HTMLElement).style.display =
-        i === this._selectedIndex ? 'block' : 'none';
+      (el as HTMLElement).style.display = i === this._selectedIndex ? 'block' : 'none';
     });
 
-    Array.from(this._headerSlot.assignedElements()).forEach(
-      (el: Element, i) => {
-        (el as HTMLElement).dataset.index = String(i);
-        el.classList.toggle('is-active', i === this._selectedIndex);
-      }
-    );
+    Array.from(this._headerSlot.assignedElements()).forEach((el: Element, i) => {
+      (el as HTMLElement).dataset.index = String(i);
+      el.classList.toggle('is-active', i === this._selectedIndex);
+    });
 
     this.dispatchEvent(
       new CustomEvent('vsc-select', {
@@ -45,7 +47,7 @@ export class VscodeTabs extends VscElement {
           selectedIndex: this._selectedIndex,
         },
         composed: true,
-      })
+      }),
     );
   }
 
@@ -54,7 +56,7 @@ export class VscodeTabs extends VscElement {
   }
 
   private _onHeaderClick(event: MouseEvent) {
-    const index = (event.target as HTMLElement).dataset.index;
+    const { index } = (event.target as HTMLElement).dataset;
 
     if (!index) {
       return;
@@ -65,17 +67,10 @@ export class VscodeTabs extends VscElement {
   }
 
   firstUpdated(): void {
-    this._headerSlot = this.shadowRoot!.querySelector(
-      'slot[name=header]'
-    ) as HTMLSlotElement;
-    this._mainSlot = this.shadowRoot!.querySelector(
-      'slot:not([name=header])'
-    ) as HTMLSlotElement;
+    this._headerSlot = this.shadowRoot!.querySelector('slot[name=header]') as HTMLSlotElement;
+    this._mainSlot = this.shadowRoot!.querySelector('slot:not([name=header])') as HTMLSlotElement;
 
-    this._mainSlot.addEventListener(
-      'slotchange',
-      this._onSlotChanged.bind(this)
-    );
+    this._mainSlot.addEventListener('slotchange', this._onSlotChanged.bind(this));
   }
 
   static get styles(): CSSResultGroup {
@@ -121,7 +116,7 @@ export class VscodeTabs extends VscElement {
 
   render(): TemplateResult {
     return html`
-      <div class="header" @click="${this._onHeaderClick}">
+      <div class="header" @click=${this._onHeaderClick}>
         <slot name="header"></slot>
       </div>
       <slot></slot>

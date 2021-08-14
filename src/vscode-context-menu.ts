@@ -1,6 +1,8 @@
-import {css, CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 import './vscode-context-menu-item';
 
 interface MenuItemData {
@@ -21,19 +23,20 @@ export class VscodeContextMenu extends VscElement {
    * &nbsp;&nbsp;tabindex?: number;
    * }</code></pre>
    */
-  @property({type: Array}) data: MenuItemData[] = [];
+  @property({ type: Array }) data: MenuItemData[] = [];
+
   // TODO: hide on item click
-  @property({type: Boolean, reflect: true}) show = false;
+  @property({ type: Boolean, reflect: true }) show = false;
 
   private onItemClick(event: CustomEvent) {
-    const {detail} = event;
+    const { detail } = event;
 
     this.dispatchEvent(
       new CustomEvent('vsc-select', {
         detail,
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -116,25 +119,25 @@ export class VscodeContextMenu extends VscElement {
     const menu = html`
       <div class="context-menu">
         ${this.data
-          ? this.data.map(
-              ({
-                label = '',
-                keybinding = '',
-                value = '',
-                separator = false,
-                tabindex = 0,
-              }) => html`
+    ? this.data.map(
+      ({
+        label = '',
+        keybinding = '',
+        value = '',
+        separator = false,
+        tabindex = 0,
+      }) => html`
                 <vscode-context-menu-item
-                  label="${label}"
-                  keybinding="${keybinding}"
-                  value="${value}"
-                  ?separator="${separator}"
-                  tabindex="${tabindex}"
-                  @vsc-click="${this.onItemClick}"
+                  label=${label}
+                  keybinding=${keybinding}
+                  value=${value}
+                  ?separator=${separator}
+                  tabindex=${tabindex}
+                  @vsc-click=${this.onItemClick}
                 ></vscode-context-menu-item>
-              `
-            )
-          : html`<slot></slot>`}
+              `,
+    )
+    : html`<slot></slot>`}
       </div>
     `;
 

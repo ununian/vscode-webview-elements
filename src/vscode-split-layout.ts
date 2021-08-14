@@ -1,8 +1,10 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { VscElement } from './includes/VscElement';
 
 const HANDLE_SIZE = 4;
 
@@ -11,18 +13,24 @@ export class VscodeSplitLayout extends VscElement {
   @property()
   split: 'horizontal' | 'vertical' = 'vertical';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   resetOnDblClick = false;
 
   @property()
   initialPos = '50%';
 
   @state() _startPaneRight = 0;
+
   @state() _startPaneBottom = 0;
+
   @state() _endPaneTop = 0;
+
   @state() _endPaneLeft = 0;
+
   @state() _handleLeft = 0;
+
   @state() _handleTop = 0;
+
   @state() _isDragActive = false;
 
   @state()
@@ -32,6 +40,7 @@ export class VscodeSplitLayout extends VscElement {
   private _hide = false;
 
   private _boundRect: DOMRect = new DOMRect();
+
   private _handleOffset = 0;
 
   connectedCallback(): void {
@@ -43,7 +52,7 @@ export class VscodeSplitLayout extends VscElement {
   }
 
   private _initPosition() {
-    const {height, width} = this._boundRect;
+    const { height, width } = this._boundRect;
     const maxPos = this.split === 'vertical' ? width : height;
     const matches = /(^[0-9.]+)(%{0,1})$/.exec(this.initialPos);
     let pos = 0;
@@ -117,16 +126,15 @@ export class VscodeSplitLayout extends VscElement {
   private _handleMouseUpBound = this._handleMouseUp.bind(this);
 
   private _handleMouseMove(event: MouseEvent) {
-    const {clientX, clientY} = event;
-    const {left, top, height, width} = this._boundRect;
+    const { clientX, clientY } = event;
+    const {
+      left, top, height, width,
+    } = this._boundRect;
 
     if (this.split === 'vertical') {
       const mouseXLocal = clientX - left;
 
-      this._handleLeft = Math.max(
-        0,
-        Math.min(mouseXLocal - this._handleOffset, width)
-      );
+      this._handleLeft = Math.max(0, Math.min(mouseXLocal - this._handleOffset, width));
       this._startPaneRight = Math.max(0, width - this._handleLeft);
       this._endPaneLeft = this._handleLeft;
     }
@@ -134,10 +142,7 @@ export class VscodeSplitLayout extends VscElement {
     if (this.split === 'horizontal') {
       const mouseYLocal = clientY - top;
 
-      this._handleTop = Math.max(
-        0,
-        Math.min(mouseYLocal - this._handleOffset, height)
-      );
+      this._handleTop = Math.max(0, Math.min(mouseYLocal - this._handleOffset, height));
       this._startPaneBottom = Math.max(0, height - this._handleTop);
       this._endPaneTop = this._handleTop;
     }
@@ -238,7 +243,7 @@ export class VscodeSplitLayout extends VscElement {
       top: `${this._endPaneTop}px`,
     };
 
-    const handleStyles: {[prop: string]: string} = {
+    const handleStyles: { [prop: string]: string } = {
       left: `${this._handleLeft}px`,
       top: `${this._handleTop}px`,
     };
@@ -271,20 +276,20 @@ export class VscodeSplitLayout extends VscElement {
     };
 
     return html`
-      <div class="start" style="${styleMap(startPaneStyles)}">
+      <div class="start" style=${styleMap(startPaneStyles)}>
         <slot name="start"></slot>
       </div>
-      <div class="end" style="${styleMap(endPaneStyles)}">
+      <div class="end" style=${styleMap(endPaneStyles)}>
         <slot name="end"></slot>
       </div>
-      <div class="${classMap(handleOverlayClasses)}"></div>
+      <div class=${classMap(handleOverlayClasses)}></div>
       <div
-        class="${classMap(handleClasses)}"
-        style="${styleMap(handleStyles)}"
-        @mouseover="${this._handleMouseOver}"
-        @mouseout="${this._handleMouseOut}"
-        @mousedown="${this._handleMouseDown}"
-        @dblclick="${this._handleDblClick}"
+        class=${classMap(handleClasses)}
+        style=${styleMap(handleStyles)}
+        @mouseover=${this._handleMouseOver}
+        @mouseout=${this._handleMouseOut}
+        @mousedown=${this._handleMouseDown}
+        @dblclick=${this._handleDblClick}
       ></div>
     `;
   }

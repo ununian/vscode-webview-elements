@@ -1,5 +1,5 @@
-import {VscodeCheckboxGroup} from '../vscode-checkbox-group';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeCheckboxGroup } from '../vscode-checkbox-group';
 import '../vscode-option';
 
 describe('vscode-checkbox-group', () => {

@@ -1,13 +1,13 @@
-import {CSSResultGroup} from 'lit';
-import {property} from 'lit/decorators';
-import {applyForegroundRGBA} from '../themeHelpers';
-import {VscElement} from '../VscElement';
+import { CSSResultGroup } from 'lit';
+import { property } from 'lit/decorators';
+import { applyForegroundRGBA } from '../themeHelpers';
+import { VscElement } from '../VscElement';
 
 export class FormButtonWidgetBase extends VscElement {
-  @property({type: Number, reflect: true})
+  @property({ type: Number, reflect: true })
   tabindex = 0;
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   focused = false;
 
   constructor() {
@@ -41,9 +41,7 @@ export class FormButtonWidgetBase extends VscElement {
 
   private _prevTabindex = 0;
 
-  protected _uid = `id_${new Date().valueOf()}_${Math.floor(
-    Math.random() * 9999
-  )}`;
+  protected _uid = `id_${new Date().valueOf()}_${Math.floor(Math.random() * 9999)}`;
 
   protected _handleClick(): void {
     throw new Error('Not implemented');

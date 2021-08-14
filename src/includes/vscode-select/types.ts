@@ -9,8 +9,4 @@ export interface InternalOption extends Option {
   index: number;
 }
 
-export type SearchMethod =
-  | 'startsWithPerTerm'
-  | 'startsWith'
-  | 'contains'
-  | 'fuzzy';
+export type SearchMethod = 'startsWithPerTerm' | 'startsWith' | 'contains' | 'fuzzy';

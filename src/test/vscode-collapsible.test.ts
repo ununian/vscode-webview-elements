@@ -1,5 +1,5 @@
-import {VscodeCollapsible} from '../vscode-collapsible';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeCollapsible } from '../vscode-collapsible';
 
 describe('vscode-collapsible', () => {
   it('is defined', () => {

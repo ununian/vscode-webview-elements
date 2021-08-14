@@ -1,6 +1,8 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-form-control')
 export class VscodeFormControl extends VscElement {

@@ -1,33 +1,35 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {ifDefined} from 'lit/directives/if-defined';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { ifDefined } from 'lit/directives/if-defined';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-icon')
 export class VscodeIcon extends VscElement {
   /**
    * Codicon icon name. @see https://microsoft.github.io/vscode-codicons/dist/codicon.html
    */
-  @property({type: String}) name = '';
+  @property({ type: String }) name = '';
 
   /**
    * Icon size in pixels
    */
-  @property({type: Number}) size = 16;
+  @property({ type: Number }) size = 16;
 
   /**
    * Enable rotation animation
    */
-  @property({type: Boolean}) spin = false;
+  @property({ type: Boolean }) spin = false;
 
   /**
    * Animation duration in seconds
    */
-  @property({type: Number, attribute: 'spin-duration'}) spinDuration = 1.5;
+  @property({ type: Number, attribute: 'spin-duration' }) spinDuration = 1.5;
 
-  @property({type: Boolean, attribute: 'action-icon'})
+  @property({ type: Boolean, attribute: 'action-icon' })
   set actionIcon(val: boolean) {
     this._actionIcon = val;
 
@@ -35,12 +37,11 @@ export class VscodeIcon extends VscElement {
       if (!this.hasAttribute('role')) {
         this.setAttribute('role', 'button');
       }
-    } else {
-      if (this.hasAttribute('role') && this.getAttribute('role') === 'button') {
-        this.removeAttribute('role');
-      }
+    } else if (this.hasAttribute('role') && this.getAttribute('role') === 'button') {
+      this.removeAttribute('role');
     }
   }
+
   get actionIcon(): boolean {
     return this._actionIcon;
   }
@@ -50,12 +51,12 @@ export class VscodeIcon extends VscElement {
   private _getStylesheetConfig(): {
     href: string | undefined;
     nonce: string | undefined;
-  } {
+    } {
     const linkElement = document.getElementById('vscode-codicon-stylesheet');
     const href = linkElement?.getAttribute('href') || undefined;
     const nonce = linkElement?.getAttribute('nonce') || undefined;
 
-    return {nonce, href};
+    return { nonce, href };
   }
 
   static get styles(): CSSResultGroup {
@@ -114,27 +115,23 @@ export class VscodeIcon extends VscElement {
   }
 
   render(): TemplateResult {
-    const {href, nonce} = this._getStylesheetConfig();
+    const { href, nonce } = this._getStylesheetConfig();
 
     return html`
-      <link
-        rel="stylesheet"
-        href="${ifDefined(href)}"
-        nonce="${ifDefined(nonce)}"
-      />
+      <link rel="stylesheet" href=${ifDefined(href)} nonce=${ifDefined(nonce)} />
       <span class="wrapper">
         <span
-          class="${classMap({
-            codicon: true,
-            ['codicon-' + this.name]: true,
-            spin: this.spin,
-          })}"
-          style="${styleMap({
-            animationDuration: String(this.spinDuration) + 's',
-            fontSize: this.size + 'px',
-            height: this.size + 'px',
-            width: this.size + 'px',
-          })}"
+          class=${classMap({
+    codicon: true,
+    [`codicon-${this.name}`]: true,
+    spin: this.spin,
+  })}
+          style=${styleMap({
+    animationDuration: `${String(this.spinDuration)}s`,
+    fontSize: `${this.size}px`,
+    height: `${this.size}px`,
+    width: `${this.size}px`,
+  })}
         ></span>
       </span>
     `;

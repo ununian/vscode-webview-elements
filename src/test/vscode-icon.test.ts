@@ -1,5 +1,5 @@
-import {VscodeIcon} from '../vscode-icon';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeIcon } from '../vscode-icon';
 
 describe('vscode-icon', () => {
   it('is defined', () => {

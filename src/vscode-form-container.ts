@@ -1,19 +1,18 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
 import {
-  customElement,
-  property,
-  query,
-  queryAssignedNodes,
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import {
+  customElement, property, query, queryAssignedNodes,
 } from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
-import {VscodeCheckbox} from './vscode-checkbox';
-import {VscodeCheckboxGroup} from './vscode-checkbox-group';
-import {VscodeFormGroup, FormGroupVariant} from './vscode-form-group';
-import {VscodeInputbox} from './vscode-inputbox';
-import {VscodeMultiSelect} from './vscode-multi-select';
-import {VscodeRadio} from './vscode-radio';
-import {VscodeRadioGroup} from './vscode-radio-group';
-import {VscodeSingleSelect} from './vscode-single-select';
+import { VscElement } from './includes/VscElement';
+import { VscodeCheckbox } from './vscode-checkbox';
+import { VscodeCheckboxGroup } from './vscode-checkbox-group';
+import { VscodeFormGroup, FormGroupVariant } from './vscode-form-group';
+import { VscodeInputbox } from './vscode-inputbox';
+import { VscodeMultiSelect } from './vscode-multi-select';
+import { VscodeRadio } from './vscode-radio';
+import { VscodeRadioGroup } from './vscode-radio-group';
+import { VscodeSingleSelect } from './vscode-single-select';
 
 enum FormGroupLayout {
   HORIZONTAL = 'horizontal',
@@ -33,29 +32,19 @@ interface FormData {
   [key: string]: string | string[];
 }
 
-const isInputbox = (el: Element): el is VscodeInputbox => {
-  return el.tagName.toLocaleLowerCase() === 'vscode-inputbox';
-};
+const isInputbox = (el: Element): el is VscodeInputbox => el.tagName.toLocaleLowerCase() === 'vscode-inputbox';
 
-const isSingleSelect = (el: Element): el is VscodeSingleSelect => {
-  return el.tagName.toLocaleLowerCase() === 'vscode-single-select';
-};
+const isSingleSelect = (el: Element): el is VscodeSingleSelect => el.tagName.toLocaleLowerCase() === 'vscode-single-select';
 
-const isMultiSelect = (el: Element): el is VscodeMultiSelect => {
-  return el.tagName.toLocaleLowerCase() === 'vscode-multi-select';
-};
+const isMultiSelect = (el: Element): el is VscodeMultiSelect => el.tagName.toLocaleLowerCase() === 'vscode-multi-select';
 
-const isCheckbox = (el: Element): el is VscodeCheckbox => {
-  return el.tagName.toLocaleLowerCase() === 'vscode-checkbox';
-};
+const isCheckbox = (el: Element): el is VscodeCheckbox => el.tagName.toLocaleLowerCase() === 'vscode-checkbox';
 
-const isRadio = (el: Element): el is VscodeRadio => {
-  return el.tagName.toLocaleLowerCase() === 'vscode-radio';
-};
+const isRadio = (el: Element): el is VscodeRadio => el.tagName.toLocaleLowerCase() === 'vscode-radio';
 
 @customElement('vscode-form-container')
 export class VscodeFormContainer extends VscElement {
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   set responsive(isResponsive: boolean) {
     this._responsive = isResponsive;
 
@@ -67,14 +56,15 @@ export class VscodeFormContainer extends VscElement {
       }
     }
   }
+
   get responsive(): boolean {
     return this._responsive;
   }
 
-  @property({type: Number})
+  @property({ type: Number })
   breakpoint = 490;
 
-  @property({type: Object})
+  @property({ type: Object })
   get data(): FormData {
     return this._collectFormData();
   }
@@ -101,9 +91,7 @@ export class VscodeFormContainer extends VscElement {
       'vscode-checkbox',
       'vscode-radio',
     ].join(',');
-    const vscFormWidgets = this.querySelectorAll(
-      query
-    ) as NodeListOf<VscFormWidget>;
+    const vscFormWidgets = this.querySelectorAll(query) as NodeListOf<VscFormWidget>;
     const data: FormData = {};
 
     vscFormWidgets.forEach((widget) => {
@@ -126,9 +114,9 @@ export class VscodeFormContainer extends VscElement {
       } else if (isCheckbox(widget) && !widget.checked) {
         data[name] = Array.isArray(data[name]) ? data[name] : [];
       } else if (
-        (isRadio(widget) && widget.checked) ||
-        isInputbox(widget) ||
-        isSingleSelect(widget)
+        (isRadio(widget) && widget.checked)
+        || isInputbox(widget)
+        || isSingleSelect(widget)
       ) {
         data[name] = widget.value;
       } else if (isRadio(widget) && !widget.checked) {
@@ -141,7 +129,7 @@ export class VscodeFormContainer extends VscElement {
 
   private _toggleCompactLayout(layout: FormGroupLayout) {
     const formGroups = this._assignedNodes.filter(
-      (el) => el.matches && el.matches('vscode-form-group')
+      el => el.matches && el.matches('vscode-form-group'),
     );
 
     formGroups.forEach((group) => {
@@ -158,7 +146,7 @@ export class VscodeFormContainer extends VscElement {
       }
 
       const checkboxOrRadioGroup = group.querySelectorAll(
-        'vscode-checkbox-group, vscode-radio-group'
+        'vscode-checkbox-group, vscode-radio-group',
       ) as NodeListOf<CheckboxOrRadioGroup>;
 
       checkboxOrRadioGroup.forEach((widgetGroup) => {
@@ -166,11 +154,11 @@ export class VscodeFormContainer extends VscElement {
           widgetGroup.dataset.originalVariant = widgetGroup.variant;
         }
 
-        const originalVariant = widgetGroup.dataset.originalVariant;
+        const { originalVariant } = widgetGroup.dataset;
 
         if (
-          layout === FormGroupLayout.HORIZONTAL &&
-          originalVariant === FormGroupLayout.HORIZONTAL
+          layout === FormGroupLayout.HORIZONTAL
+          && originalVariant === FormGroupLayout.HORIZONTAL
         ) {
           widgetGroup.variant = 'horizontal';
         } else {
@@ -187,10 +175,7 @@ export class VscodeFormContainer extends VscElement {
       wrapperWidth = entry.contentRect.width;
     }
 
-    const nextLayout: FormGroupLayout =
-      wrapperWidth < this.breakpoint
-        ? FormGroupLayout.VERTICAL
-        : FormGroupLayout.HORIZONTAL;
+    const nextLayout: FormGroupLayout = wrapperWidth < this.breakpoint ? FormGroupLayout.VERTICAL : FormGroupLayout.HORIZONTAL;
 
     if (nextLayout !== this._currentFormGroupLayout) {
       this._toggleCompactLayout(nextLayout);
@@ -198,13 +183,10 @@ export class VscodeFormContainer extends VscElement {
     }
   }
 
-  private _resizeObserverCallbackBound =
-    this._resizeObserverCallback.bind(this);
+  private _resizeObserverCallbackBound = this._resizeObserverCallback.bind(this);
 
   private _activateResponsiveLayout() {
-    this._resizeObserver = new ResizeObserver(
-      this._resizeObserverCallbackBound
-    );
+    this._resizeObserver = new ResizeObserver(this._resizeObserverCallbackBound);
     this._resizeObserver.observe(this._wrapperElement);
   }
 

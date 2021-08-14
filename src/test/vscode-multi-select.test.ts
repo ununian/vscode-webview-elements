@@ -1,5 +1,5 @@
-import {VscodeMultiSelect} from '../vscode-multi-select';
-import {expect, fixture, html} from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
+import { VscodeMultiSelect } from '../vscode-multi-select';
 import '../vscode-option';
 
 describe('vscode-multi-select', () => {

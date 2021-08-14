@@ -1,10 +1,12 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-table-row')
 export class VscodeTableRow extends VscElement {
-  @property({reflect: true})
+  @property({ reflect: true })
   role = 'row';
 
   static get styles(): CSSResultGroup {

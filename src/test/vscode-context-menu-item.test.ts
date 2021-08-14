@@ -1,5 +1,5 @@
-import {VscodeContextMenuItem} from '../vscode-context-menu-item';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeContextMenuItem } from '../vscode-context-menu-item';
 
 describe('vscode-context-menu-item', () => {
   it('is defined', () => {

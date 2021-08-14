@@ -1,5 +1,5 @@
-import {VscodeLabel} from '../vscode-label';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeLabel } from '../vscode-label';
 
 describe('vscode-label', () => {
   it('is defined', () => {

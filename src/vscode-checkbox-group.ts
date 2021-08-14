@@ -1,10 +1,12 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-checkbox-group')
 export class VscodeCheckboxGroup extends VscElement {
-  @property({reflect: true})
+  @property({ reflect: true })
   variant: 'horizontal' | 'vertical' = 'horizontal';
 
   static get styles(): CSSResultGroup {

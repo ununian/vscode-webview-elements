@@ -1,5 +1,5 @@
-import {VscodeTree} from '../vscode-tree';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeTree } from '../vscode-tree';
 
 describe('vscode-tree', () => {
   it('is defined', () => {

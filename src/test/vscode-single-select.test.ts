@@ -1,6 +1,6 @@
-import {VscodeSingleSelect} from '../vscode-single-select';
-import {expect, fixture, html} from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
+import { VscodeSingleSelect } from '../vscode-single-select';
 import '../vscode-option';
 
 describe('vscode-single-select', () => {
@@ -148,15 +148,13 @@ describe('vscode-single-select', () => {
 
       const spy = sinon.spy(el, 'dispatchEvent');
 
-      const face = el.shadowRoot?.querySelector(
-        '.select-face'
-      ) as HTMLDivElement;
+      const face = el.shadowRoot?.querySelector('.select-face') as HTMLDivElement;
 
       face.click();
       await el.updateComplete;
 
       const secondOption = el.shadowRoot?.querySelector(
-        '.options li:nth-of-type(2)'
+        '.options li:nth-of-type(2)',
       ) as HTMLLIElement;
       secondOption.click();
       await el.updateComplete;
@@ -214,7 +212,7 @@ describe('vscode-single-select', () => {
 
       const spy = sinon.spy(el, 'dispatchEvent');
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -250,7 +248,7 @@ describe('vscode-single-select', () => {
 
       const spy = sinon.spy(el, 'dispatchEvent');
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowUp'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -304,13 +302,13 @@ describe('vscode-single-select', () => {
         </vscode-single-select>
       `)) as VscodeSingleSelect;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: ' '}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(markupOpen);
       expect(el.getAttribute('aria-expanded')).to.eq('true');
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: ' '}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(markupOpen);
@@ -324,7 +322,7 @@ describe('vscode-single-select', () => {
         </vscode-single-select>
       `)) as VscodeSingleSelect;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -350,7 +348,7 @@ describe('vscode-single-select', () => {
       `);
       expect(el.getAttribute('aria-expanded')).to.eq('true');
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -380,9 +378,9 @@ describe('vscode-single-select', () => {
 
       el.dispatchEvent(new MouseEvent('click'));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
 
       const changeEvent = spy.lastCall.args[0] as CustomEvent;
@@ -401,7 +399,7 @@ describe('vscode-single-select', () => {
       expect(el.value).to.eq('Dolor');
       expect(el.selectedIndex).to.eq(2);
       expect(changeEvent.type).to.eq('vsc-change');
-      expect(changeEvent.detail).to.eql({selectedIndex: 2, value: 'Dolor'});
+      expect(changeEvent.detail).to.eql({ selectedIndex: 2, value: 'Dolor' });
     });
 
     it('dropdown should be closed when ESC key pressed', async () => {
@@ -411,7 +409,7 @@ describe('vscode-single-select', () => {
         </vscode-single-select>
       `)) as VscodeSingleSelect;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: ' '}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -437,7 +435,7 @@ describe('vscode-single-select', () => {
       `);
       expect(el.getAttribute('aria-expanded')).to.eq('true');
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
       await el.updateComplete;
 
       expect(el).shadowDom.to.eq(`
@@ -527,9 +525,7 @@ describe('vscode-single-select', () => {
       `)) as VscodeSingleSelect;
       await el.updateComplete;
 
-      const input = el.shadowRoot?.querySelector(
-        '.combobox-input'
-      ) as HTMLInputElement;
+      const input = el.shadowRoot?.querySelector('.combobox-input') as HTMLInputElement;
       input.value = 'au';
       input.dispatchEvent(new InputEvent('input'));
       await el.updateComplete;
@@ -591,15 +587,13 @@ describe('vscode-single-select', () => {
       `)) as VscodeSingleSelect;
       await el.updateComplete;
 
-      const input = el.shadowRoot?.querySelector(
-        '.combobox-input'
-      ) as HTMLInputElement;
+      const input = el.shadowRoot?.querySelector('.combobox-input') as HTMLInputElement;
       input.value = 'au';
       input.dispatchEvent(new InputEvent('input'));
       await el.updateComplete;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
 
       const optionsElement = el.shadowRoot?.querySelector('.options');
@@ -643,17 +637,15 @@ describe('vscode-single-select', () => {
 
       const spy = sinon.spy(el, 'dispatchEvent');
 
-      const input = el.shadowRoot?.querySelector(
-        '.combobox-input'
-      ) as HTMLInputElement;
+      const input = el.shadowRoot?.querySelector('.combobox-input') as HTMLInputElement;
       input.value = 'au';
       input.dispatchEvent(new InputEvent('input'));
       await el.updateComplete;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       await el.updateComplete;
 
       const dispatchedChangeEvent = spy.args[2][0] as CustomEvent;
@@ -693,33 +685,31 @@ describe('vscode-single-select', () => {
       `)) as VscodeSingleSelect;
       await el.updateComplete;
 
-      const input = el.shadowRoot?.querySelector(
-        '.combobox-input'
-      ) as HTMLInputElement;
+      const input = el.shadowRoot?.querySelector('.combobox-input') as HTMLInputElement;
       input.focus();
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
 
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       await el.updateComplete;
 
       const activeOpt = el.shadowRoot?.querySelector('.option.active');
@@ -744,16 +734,14 @@ describe('vscode-single-select', () => {
 
       const spy = sinon.spy(el, 'dispatchEvent');
 
-      const input = el.shadowRoot?.querySelector(
-        '.combobox-input'
-      ) as HTMLInputElement;
+      const input = el.shadowRoot?.querySelector('.combobox-input') as HTMLInputElement;
       input.value = 'dol';
 
       input?.dispatchEvent(new InputEvent('input'));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowDown'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
       await el.updateComplete;
-      el.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
       await el.updateComplete;
 
       const changeEvent = spy.lastCall.args[0] as CustomEvent;
@@ -761,7 +749,7 @@ describe('vscode-single-select', () => {
       expect(el.value).to.eq('Dolor');
       expect(el.selectedIndex).to.eq(2);
       expect(changeEvent.type).to.eq('vsc-change');
-      expect(changeEvent.detail).to.eql({selectedIndex: 2, value: 'Dolor'});
+      expect(changeEvent.detail).to.eql({ selectedIndex: 2, value: 'Dolor' });
       expect(input.value).to.eq('Dolor');
     });
   });

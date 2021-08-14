@@ -1,8 +1,10 @@
-import {css, CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { customElement, property, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { VscElement } from './includes/VscElement';
 import './vscode-icon';
 
 enum KeyName {
@@ -50,7 +52,9 @@ const mapData = (tree: TreeItem[], prevPath: number[] = []): TreeItem[] => {
   const nextTree: TreeItem[] = [];
 
   tree.forEach((val, index) => {
-    const {label, subItems, open, selected, focused, icons, value} = val;
+    const {
+      label, subItems, open, selected, focused, icons, value,
+    } = val;
     const path = [...prevPath, index];
     const nextItem: TreeItem = {
       label,
@@ -58,7 +62,7 @@ const mapData = (tree: TreeItem[], prevPath: number[] = []): TreeItem[] => {
       open: !!open,
       selected: !!selected,
       focused: !!focused,
-      icons: {...icons},
+      icons: { ...icons },
       value,
     };
 
@@ -111,21 +115,25 @@ const mapData = (tree: TreeItem[], prevPath: number[] = []): TreeItem[] => {
  */
 @customElement('vscode-tree')
 export class VscodeTree extends VscElement {
-  @property({type: Array, reflect: false})
+  @property({ type: Array, reflect: false })
   set data(val: TreeItem[]) {
     const oldVal = this._data;
 
     this._data = mapData(val);
     this.requestUpdate('data', oldVal);
   }
+
   get data(): TreeItem[] {
     return this._data;
   }
 
-  @property({type: Number}) indent = 8;
-  @property({type: Boolean}) arrows = false;
-  @property({type: Boolean}) multiline = false;
-  @property({type: Number, reflect: true}) tabindex = 0;
+  @property({ type: Number }) indent = 8;
+
+  @property({ type: Boolean }) arrows = false;
+
+  @property({ type: Boolean }) multiline = false;
+
+  @property({ type: Number, reflect: true }) tabindex = 0;
 
   private _data: TreeItem[] = [];
 
@@ -151,11 +159,7 @@ export class VscodeTree extends VscElement {
   }
 
   private getItemType(item: TreeItem): ItemType {
-    if (
-      item.subItems &&
-      Array.isArray(item.subItems) &&
-      item.subItems.length > 0
-    ) {
+    if (item.subItems && Array.isArray(item.subItems) && item.subItems.length > 0) {
       return ItemType.BRANCH;
     }
 
@@ -167,19 +171,20 @@ export class VscodeTree extends VscElement {
       return undefined;
     }
 
-    const {icons} = element;
+    const { icons } = element;
     const itemType = this.getItemType(element);
     const isOpen = element.open || false;
 
     if (itemType === ItemType.BRANCH && isOpen) {
       return icons.open || undefined;
-    } else if (itemType === ItemType.BRANCH && !isOpen) {
-      return icons.branch || undefined;
-    } else if (itemType === ItemType.LEAF) {
-      return icons.leaf || undefined;
-    } else {
-      return undefined;
     }
+    if (itemType === ItemType.BRANCH && !isOpen) {
+      return icons.branch || undefined;
+    }
+    if (itemType === ItemType.LEAF) {
+      return icons.leaf || undefined;
+    }
+    return undefined;
   }
 
   private renderTreeItem({
@@ -207,26 +212,18 @@ export class VscodeTree extends VscElement {
     const contentsClasses = ['contents'];
     const liClasses = open ? ['open'] : [];
     const indentSize = indentLevel * this.indent;
-    const padLeft =
-      this.arrows && itemType === ItemType.LEAF
-        ? ARROW_OUTER_WIDTH + indentSize
-        : indentSize;
-    const arrowMarkup =
-      this.arrows && itemType === ItemType.BRANCH
-        ? html`<vscode-icon
-            name="${arrowIconName}"
-            class="icon-arrow"
-          ></vscode-icon>`
-        : nothing;
-    const iconMarkup = iconName
-      ? html`<vscode-icon name="${iconName}" class="label-icon"></vscode-icon>`
+    const padLeft = this.arrows && itemType === ItemType.LEAF ? ARROW_OUTER_WIDTH + indentSize : indentSize;
+    const arrowMarkup = this.arrows && itemType === ItemType.BRANCH
+      ? html`<vscode-icon name=${arrowIconName} class="icon-arrow"></vscode-icon>`
       : nothing;
-    const subTreeMarkup =
-      open && itemType === ItemType.BRANCH
-        ? html`<ul>
+    const iconMarkup = iconName
+      ? html`<vscode-icon name=${iconName} class="label-icon"></vscode-icon>`
+      : nothing;
+    const subTreeMarkup = open && itemType === ItemType.BRANCH
+      ? html`<ul>
             ${this.renderTree(subItems, path)}
           </ul>`
-        : nothing;
+      : nothing;
     const labelMarkup = html`<span class="label">${label}</span>`;
 
     liClasses.push(itemType === ItemType.LEAF ? 'leaf' : 'branch');
@@ -240,11 +237,8 @@ export class VscodeTree extends VscElement {
     }
 
     return html`
-      <li data-path="${path.join('/')}" class="${liClasses.join(' ')}">
-        <span
-          class="${contentsClasses.join(' ')}"
-          style="${styleMap({paddingLeft: `${padLeft}px`})}"
-        >
+      <li data-path=${path.join('/')} class=${liClasses.join(' ')}>
+        <span class=${contentsClasses.join(' ')} style=${styleMap({ paddingLeft: `${padLeft}px` })}>
           ${arrowMarkup} ${iconMarkup} ${labelMarkup}
         </span>
         ${subTreeMarkup}
@@ -265,11 +259,7 @@ export class VscodeTree extends VscElement {
       const itemType = this.getItemType(element);
       const iconName = this.getIconName(element);
       const {
-        label,
-        open = false,
-        selected = false,
-        focused = false,
-        subItems = [],
+        label, open = false, selected = false, focused = false, subItems = [],
       } = element;
 
       if (selected) {
@@ -291,7 +281,7 @@ export class VscodeTree extends VscElement {
           selected,
           focused,
           subItems,
-        })
+        }),
       );
     });
 
@@ -335,7 +325,9 @@ export class VscodeTree extends VscElement {
   }
 
   private emitSelectEvent(item: TreeItem, path: string) {
-    const {icons, label, open, value} = item;
+    const {
+      icons, label, open, value,
+    } = item;
     const detail = {
       icons,
       itemType: this.getItemType(item),
@@ -350,7 +342,7 @@ export class VscodeTree extends VscElement {
         bubbles: true,
         composed: true,
         detail,
-      })
+      }),
     );
   }
 
@@ -369,7 +361,7 @@ export class VscodeTree extends VscElement {
       return;
     }
 
-    const {path} = this._focusedItem;
+    const { path } = this._focusedItem;
 
     if (path && path?.length > 0) {
       const currentItemIndex = path[path.length - 1];
@@ -383,18 +375,16 @@ export class VscodeTree extends VscElement {
         let newFocusedItem = prevSibling;
 
         if (prevSibling?.open && prevSibling.subItems?.length) {
-          const {subItems} = prevSibling;
+          const { subItems } = prevSibling;
           newFocusedItem = subItems[subItems.length - 1];
         }
 
         this._focusItem(newFocusedItem);
-      } else {
-        if (hasParent) {
-          const newPath = [...path];
-          newPath.pop();
+      } else if (hasParent) {
+        const newPath = [...path];
+        newPath.pop();
 
-          this._focusItem(this.getItemByPath(newPath) as TreeItem);
-        }
+        this._focusItem(this.getItemByPath(newPath) as TreeItem);
       }
     } else {
       this._focusItem(this._data[0]);
@@ -407,12 +397,12 @@ export class VscodeTree extends VscElement {
       return;
     }
 
-    const {path, open} = this._focusedItem;
+    const { path, open } = this._focusedItem;
 
     if (
-      open &&
-      Array.isArray(this._focusedItem.subItems) &&
-      this._focusedItem.subItems.length > 0
+      open
+      && Array.isArray(this._focusedItem.subItems)
+      && this._focusedItem.subItems.length > 0
     ) {
       this._focusItem(this._focusedItem.subItems[0]);
       return;
@@ -442,14 +432,12 @@ export class VscodeTree extends VscElement {
   private onComponentClick(event: MouseEvent) {
     const composedPath = event.composedPath();
     const targetElement = composedPath.find(
-      (el: EventTarget) =>
-        (el as HTMLElement).tagName &&
-        (el as HTMLElement).tagName.toUpperCase() === 'LI'
+      (el: EventTarget) => (el as HTMLElement).tagName && (el as HTMLElement).tagName.toUpperCase() === 'LI',
     );
 
     if (targetElement) {
       const pathStr = (targetElement as HTMLLIElement).dataset.path || '';
-      const path = pathStr.split('/').map((el) => Number(el));
+      const path = pathStr.split('/').map(el => Number(el));
       const item = this.getItemByPath(path) as TreeItem;
 
       this.toggleSubTreeOpen(item);
@@ -504,10 +492,7 @@ export class VscodeTree extends VscElement {
       if (this._selectedItem) {
         this._selectedItem.selected = true;
         this._selectedItem.open = !this._selectedItem.open;
-        this.emitSelectEvent(
-          this._selectedItem as TreeItem,
-          this._selectedItem.path!.join('/')
-        );
+        this.emitSelectEvent(this._selectedItem as TreeItem, this._selectedItem.path!.join('/'));
         this.requestUpdate();
       }
     }
@@ -636,7 +621,7 @@ export class VscodeTree extends VscElement {
     };
 
     return html`
-      <div @click="${this.onComponentClick}" class="${classMap(classes)}">
+      <div @click=${this.onComponentClick} class=${classMap(classes)}>
         <ul>
           ${this.renderTree(this._data)}
         </ul>

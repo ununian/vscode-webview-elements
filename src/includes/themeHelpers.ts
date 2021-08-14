@@ -2,8 +2,7 @@ const STYLE_TAG_ID = '__vscode-webview-elements_custom-properties__';
 
 let ob: MutationObserver;
 
-export const isRgba = (colorStr: string): boolean =>
-  /rgba\([0-9, .]+\)/g.test(colorStr);
+export const isRgba = (colorStr: string): boolean => /rgba\([0-9, .]+\)/g.test(colorStr);
 
 export const addAlpha = (hexColor: string, alpha: number): string => {
   const r = parseInt(hexColor.substring(1, 3), 16);
@@ -31,9 +30,7 @@ const injectInlineStyles = (content: string) => {
 };
 
 const getStyleContent = () => {
-  const fgColor = document.documentElement.style.getPropertyValue(
-    '--vscode-foreground'
-  );
+  const fgColor = document.documentElement.style.getPropertyValue('--vscode-foreground');
   let color = '';
 
   if (!fgColor) {

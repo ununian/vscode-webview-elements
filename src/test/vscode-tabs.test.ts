@@ -1,5 +1,5 @@
-import {VscodeTabs} from '../vscode-tabs';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeTabs } from '../vscode-tabs';
 
 describe('vscode-tabs', () => {
   it('is defined', () => {

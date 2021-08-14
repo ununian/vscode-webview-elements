@@ -1,4 +1,4 @@
-import {css} from 'lit';
+import { css } from 'lit';
 
 /**
  * Text styles for the labels and form helpers
@@ -33,8 +33,7 @@ export default css`
   }
 
   :host-context(body.linux) ::slotted(code) {
-    font-family: 'Droid Sans Mono', Inconsolata, 'Courier New', monospace,
-      'Droid Sans Fallback';
+    font-family: 'Droid Sans Mono', Inconsolata, 'Courier New', monospace, 'Droid Sans Fallback';
   }
 
   :host-context(body.darwin) ::slotted(code) {

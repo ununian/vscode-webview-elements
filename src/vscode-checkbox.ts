@@ -1,14 +1,16 @@
-import {CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {FormButtonWidgetBase} from './includes/form-button-widget/FormButtonWidgetBase';
+import {
+  CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { customElement, property, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { FormButtonWidgetBase } from './includes/form-button-widget/FormButtonWidgetBase';
 import baseStyles from './includes/form-button-widget/base.styles';
 import checkboxStyles from './includes/form-button-widget/checkbox.styles';
 import formHelperTextStyles from './includes/formHelperTextStyles';
 
 @customElement('vscode-checkbox')
 export class VscodeCheckbox extends FormButtonWidgetBase {
-  @property({type: Boolean})
+  @property({ type: Boolean })
   checked = false;
 
   @property()
@@ -17,7 +19,7 @@ export class VscodeCheckbox extends FormButtonWidgetBase {
   @property()
   value = '';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   disabled = false;
 
   @state()
@@ -39,7 +41,7 @@ export class VscodeCheckbox extends FormButtonWidgetBase {
         },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -87,17 +89,17 @@ export class VscodeCheckbox extends FormButtonWidgetBase {
     return html`
       <div class="wrapper">
         <input
-          id="${this._uid}"
+          id=${this._uid}
           class="checkbox"
           type="checkbox"
-          ?checked="${this.checked}"
-          value="${this.value}"
+          ?checked=${this.checked}
+          .value=${this.value}
           tabindex="-1"
         />
-        <div class="${classMap(iconClasses)}">${check}</div>
-        <label for="${this._uid}" class="label" @click="${this._handleClick}">
-          <span class="${classMap(labelInnerClasses)}">
-            <slot @slotchange="${this._handleSlotChange}">${this.label}</slot>
+        <div class=${classMap(iconClasses)}>${check}</div>
+        <label for=${this._uid} class="label" @click=${this._handleClick}>
+          <span class=${classMap(labelInnerClasses)}>
+            <slot @slotchange=${this._handleSlotChange}>${this.label}</slot>
           </span>
         </label>
       </div>

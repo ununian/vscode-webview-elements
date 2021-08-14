@@ -1,5 +1,5 @@
-import {VscodeRadioGroup} from '../vscode-radio-group';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeRadioGroup } from '../vscode-radio-group';
 
 describe('vscode-radio-group', () => {
   it('is defined', () => {

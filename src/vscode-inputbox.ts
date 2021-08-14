@@ -1,10 +1,14 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {ifDefined} from 'lit/directives/if-defined';
-import {INPUT_LINE_HEIGHT_RATIO} from './includes/helpers';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import {
+  customElement, property, query, state,
+} from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { ifDefined } from 'lit/directives/if-defined';
+import { INPUT_LINE_HEIGHT_RATIO } from './includes/helpers';
+import { VscElement } from './includes/VscElement';
 
 enum Severity {
   DEFAULT = 'default',
@@ -32,9 +36,7 @@ const LINE_HEIGHT = 17;
 const PADDING = 4;
 const BORDER_WIDTH = 1;
 
-const calcHeightFromLines = (lines: number) => {
-  return BORDER_WIDTH * 2 + PADDING * 2 + lines * LINE_HEIGHT;
-};
+const calcHeightFromLines = (lines: number) => BORDER_WIDTH * 2 + PADDING * 2 + lines * LINE_HEIGHT;
 
 /**
  * @attr {narrow|wide} variant - The sizes are borrowed from the VSCode settings page. The narrow size is typically used for the numeric values and the wide size for the text.
@@ -62,13 +64,13 @@ export class VscodeInputbox extends VscElement {
   @property()
   label = '';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   multiline = false;
 
-  @property({type: String})
+  @property({ type: String })
   message = '';
 
-  @property({type: String})
+  @property({ type: String })
   set severity(val: string) {
     const oldVal = this._severity;
 
@@ -84,6 +86,7 @@ export class VscodeInputbox extends VscElement {
 
     this.requestUpdate('messageSeverity', oldVal);
   }
+
   get severity(): string {
     return this._severity;
   }
@@ -92,7 +95,7 @@ export class VscodeInputbox extends VscElement {
    * @deprecated
    * @attr panelInput
    */
-  @property({type: Boolean})
+  @property({ type: Boolean })
   panelInput = false;
 
   /**
@@ -100,43 +103,43 @@ export class VscodeInputbox extends VscElement {
    * @attr type
    * @type {"color"|"date"|"datetime-local"|"email"|"file"|"month"|"number"|"password"|"tel"|"text"|"time"|"url"|"week"}
    */
-  @property({type: String})
+  @property({ type: String })
   type: InputType = 'text';
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   focused = false;
 
-  @property({type: String})
+  @property({ type: String })
   value = '';
 
-  @property({type: String})
+  @property({ type: String })
   placeholder = '';
 
-  @property({type: Number})
+  @property({ type: Number })
   lines = 2;
 
-  @property({type: Number})
+  @property({ type: Number })
   maxLines = 5;
 
-  @property({type: Number})
+  @property({ type: Number })
   min: number | undefined = undefined;
 
-  @property({type: Number})
+  @property({ type: Number })
   minLength: number | undefined = undefined;
 
-  @property({type: Number})
+  @property({ type: Number })
   max: number | undefined = undefined;
 
-  @property({type: Number})
+  @property({ type: Number })
   maxLength: number | undefined = undefined;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   multiple = false;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   readonly = false;
 
-  @property({type: Number})
+  @property({ type: Number })
   step: number | undefined = undefined;
 
   /* @property({reflect: true, type: Number})
@@ -152,6 +155,7 @@ export class VscodeInputbox extends VscElement {
   private _textareaHeight = 0;
 
   private _severity: Severity;
+
   private _textareaDefaultCursor = false;
 
   constructor() {
@@ -164,9 +168,7 @@ export class VscodeInputbox extends VscElement {
     this.resizeTextareaIfRequired();
   }
 
-  updated(
-    changedProperties: Map<string, undefined | string | boolean | number>
-  ): void {
+  updated(changedProperties: Map<string, undefined | string | boolean | number>): void {
     if (changedProperties.has('value')) {
       this.resizeTextareaIfRequired();
     }
@@ -202,7 +204,7 @@ export class VscodeInputbox extends VscElement {
         detail: eventTarget.value,
         bubbles: true,
         composed: true,
-      })
+      }),
     );
 
     this.resizeTextareaIfRequired();
@@ -216,7 +218,7 @@ export class VscodeInputbox extends VscElement {
         detail: eventTarget.value,
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   };
 
@@ -225,9 +227,7 @@ export class VscodeInputbox extends VscElement {
     const x = event.clientX;
     const SCROLLBAR_WIDTH = 10;
 
-    this._textareaDefaultCursor =
-      x <= br.left + br.width &&
-      x >= br.left + br.width - SCROLLBAR_WIDTH - BORDER_WIDTH * 2;
+    this._textareaDefaultCursor = x <= br.left + br.width && x >= br.left + br.width - SCROLLBAR_WIDTH - BORDER_WIDTH * 2;
 
     this.requestUpdate();
   };
@@ -237,7 +237,7 @@ export class VscodeInputbox extends VscElement {
       return;
     }
 
-    const {height} = this._measurerEl.getBoundingClientRect();
+    const { height } = this._measurerEl.getBoundingClientRect();
 
     if (height === 0) {
       this._textareaHeight = calcHeightFromLines(this.lines);
@@ -320,10 +320,7 @@ export class VscodeInputbox extends VscElement {
         input,
         textarea {
           background-color: var(--vscode-input-background);
-          border-color: var(
-            --vscode-settings-textInputBorder,
-            rgba(0, 0, 0, 0)
-          );
+          border-color: var(--vscode-settings-textInputBorder, rgba(0, 0, 0, 0));
           border-style: solid;
           border-width: 1px;
           box-sizing: border-box;
@@ -464,60 +461,54 @@ export class VscodeInputbox extends VscElement {
     };
     const measurerContent = this.value
       ? this.value
-          .split('\n')
-          .map((line) =>
-            line ? html`<div>${line}</div>` : html`<div>&nbsp;</div>`
-          )
+        .split('\n')
+        .map(line => (line ? html`<div>${line}</div>` : html`<div>&nbsp;</div>`))
       : html`&nbsp;`;
 
     const textarea = html`
       <textarea
-        @focus="${this.onInputFocus}"
-        @blur="${this.onInputBlur}"
-        @input="${this.onInputInput}"
-        @change="${this.onInputChange}"
-        @mousemove="${this.onTextareaMouseMove}"
-        class="${classMap({
-          'cursor-default': this._textareaDefaultCursor,
-          'input-element': true,
-        })}"
-        minlength="${ifDefined(this.minLength)}"
-        maxlength="${ifDefined(this.maxLength)}"
-        placeholder="${this.placeholder}"
-        ?readonly="${this.readonly}"
-        style="${styleMap(textareaStyles)}"
-        .value="${this.value}"
+        @focus=${this.onInputFocus}
+        @blur=${this.onInputBlur}
+        @input=${this.onInputInput}
+        @change=${this.onInputChange}
+        @mousemove=${this.onTextareaMouseMove}
+        class=${classMap({
+    'cursor-default': this._textareaDefaultCursor,
+    'input-element': true,
+  })}
+        minlength=${ifDefined(this.minLength)}
+        maxlength=${ifDefined(this.maxLength)}
+        placeholder=${this.placeholder}
+        ?readonly=${this.readonly}
+        style=${styleMap(textareaStyles)}
+        .value=${this.value}
       ></textarea>
-      <div class="content-measurer" style="${styleMap(measurerStyles)}">
-        ${measurerContent}
-      </div>
+      <div class="content-measurer" style=${styleMap(measurerStyles)}>${measurerContent}</div>
     `;
     const input = html`
       <input
-        type="${this.type}"
-        @focus="${this.onInputFocus}"
-        @blur="${this.onInputBlur}"
-        @input="${this.onInputInput}"
-        @change="${this.onInputChange}"
-        placeholder="${this.placeholder}"
-        min="${ifDefined(this.min)}"
-        minlength="${ifDefined(this.minLength)}"
-        max="${ifDefined(this.max)}"
-        maxlength="${ifDefined(this.maxLength)}"
-        ?multiple="${this.multiple}"
-        ?readonly="${this.readonly}"
-        step="${ifDefined(this.step)}"
-        .value="${this.value}"
+        type=${this.type}
+        @focus=${this.onInputFocus}
+        @blur=${this.onInputBlur}
+        @input=${this.onInputInput}
+        @change=${this.onInputChange}
+        placeholder=${this.placeholder}
+        min=${ifDefined(this.min)}
+        minlength=${ifDefined(this.minLength)}
+        max=${ifDefined(this.max)}
+        maxlength=${ifDefined(this.maxLength)}
+        ?multiple=${this.multiple}
+        ?readonly=${this.readonly}
+        step=${ifDefined(this.step)}
+        .value=${this.value}
         class="input-element"
       />
     `;
 
-    const message = html`
-      <div class="message ${this.severity}">${this.message}</div>
-    `;
+    const message = html` <div class="message ${this.severity}">${this.message}</div> `;
 
     return html`
-      <div class="${classMap(containerClasses)}">
+      <div class=${classMap(containerClasses)}>
         <div class="helper"><slot name="helper"></slot></div>
         <div class="input-wrapper">
           ${this.multiline ? textarea : input} ${this.message ? message : ''}

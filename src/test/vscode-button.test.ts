@@ -1,5 +1,5 @@
-import {VscodeButton} from '../vscode-button';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeButton } from '../vscode-button';
 import '../vscode-option';
 
 describe('vscode-button', () => {

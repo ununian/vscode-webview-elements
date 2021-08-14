@@ -1,7 +1,9 @@
-import {css, CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { VscElement } from './includes/VscElement';
 import './vscode-icon';
 
 /**
@@ -9,20 +11,25 @@ import './vscode-icon';
  */
 @customElement('vscode-button')
 export class VscodeButton extends VscElement {
-  @property({type: Number, reflect: true}) tabindex = 0;
-  @property({type: Boolean}) secondary = false;
-  @property({reflect: true}) role = 'button';
-  @property({type: Boolean}) disabled = false;
+  @property({ type: Number, reflect: true }) tabindex = 0;
+
+  @property({ type: Boolean }) secondary = false;
+
+  @property({ reflect: true }) role = 'button';
+
+  @property({ type: Boolean }) disabled = false;
+
   /**
    * A [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) before the label
    */
   @property() icon = '';
+
   /**
    * A [Codicon](https://microsoft.github.io/vscode-codicons/dist/codicon.html) after the label
    */
   @property() iconAfter = '';
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   focused = false;
 
   private _prevTabindex = 0;
@@ -57,10 +64,7 @@ export class VscodeButton extends VscElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
-    if (
-      (event.key === 'Enter' || event.key === ' ') &&
-      !this.hasAttribute('disabled')
-    ) {
+    if ((event.key === 'Enter' || event.key === ' ') && !this.hasAttribute('disabled')) {
       this.dispatchEvent(
         new CustomEvent<{
           originalEvent: MouseEvent;
@@ -68,7 +72,7 @@ export class VscodeButton extends VscElement {
           detail: {
             originalEvent: new MouseEvent('click'),
           },
-        })
+        }),
       );
     }
   }
@@ -82,7 +86,7 @@ export class VscodeButton extends VscElement {
           detail: {
             originalEvent: event,
           },
-        })
+        }),
       );
     }
   }
@@ -209,18 +213,15 @@ export class VscodeButton extends VscElement {
     };
 
     const iconElem = hasIcon
-      ? html`<vscode-icon name="${this.icon}" class="icon"></vscode-icon>`
+      ? html`<vscode-icon name=${this.icon} class="icon"></vscode-icon>`
       : nothing;
 
     const iconAfterElem = hasIconAfter
-      ? html`<vscode-icon
-          name="${this.iconAfter}"
-          class="icon-after"
-        ></vscode-icon>`
+      ? html`<vscode-icon name=${this.iconAfter} class="icon-after"></vscode-icon>`
       : nothing;
 
     return html`
-      <span class="${classMap(wrapperClasses)}">
+      <span class=${classMap(wrapperClasses)}>
         ${iconElem}
         <slot></slot>
         ${iconAfterElem}

@@ -1,7 +1,9 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { VscElement } from './includes/VscElement';
 
 /**
  * @slot body - Main content
@@ -9,10 +11,10 @@ import {VscElement} from './includes/VscElement';
  */
 @customElement('vscode-collapsible')
 export class VscodeCollapsible extends VscElement {
-  @property({type: String})
+  @property({ type: String })
   title = '';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   open = false;
 
   private _onHeaderClick() {
@@ -97,7 +99,7 @@ export class VscodeCollapsible extends VscElement {
   }
 
   render(): TemplateResult {
-    const classes = {collapsible: true, open: this.open};
+    const classes = { collapsible: true, open: this.open };
 
     const icon = html`<svg
       width="16"
@@ -115,13 +117,13 @@ export class VscodeCollapsible extends VscElement {
     </svg>`;
 
     return html`
-      <div class="${classMap(classes)}">
+      <div class=${classMap(classes)}>
         <div
           class="collapsible-header"
           tabindex="0"
-          title="${this.title}"
-          @click="${this._onHeaderClick}"
-          @keydown="${this._onHeaderKeyDown}"
+          title=${this.title}
+          @click=${this._onHeaderClick}
+          @keydown=${this._onHeaderKeyDown}
         >
           ${icon}
           <h3 class="title">${this.title}</h3>

@@ -1,12 +1,14 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 export type FormGroupVariant = 'horizontal' | 'vertical' | 'settings-group';
 
 @customElement('vscode-form-group')
 export class VscodeFormGroup extends VscElement {
-  @property({reflect: true})
+  @property({ reflect: true })
   variant: FormGroupVariant = 'horizontal';
 
   static get styles(): CSSResultGroup {
@@ -63,8 +65,7 @@ export class VscodeFormGroup extends VscElement {
 
         ::slotted(vscode-form-helper) {
           margin-left: calc(
-            var(--vsc-inline-label-width, var(--label-default-width)) +
-              var(--label-right-margin)
+            var(--vsc-inline-label-width, var(--label-default-width)) + var(--label-right-margin)
           );
         }
 
@@ -94,8 +95,7 @@ export class VscodeFormGroup extends VscElement {
 
         ::slotted(vscode-button:first-child) {
           margin-left: calc(
-            var(--vsc-inline-label-width, var(--label-default-width)) +
-              var(--label-right-margin)
+            var(--vsc-inline-label-width, var(--label-default-width)) + var(--label-right-margin)
           );
         }
 

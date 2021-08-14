@@ -1,5 +1,5 @@
-import {VscodeSplitLayout} from '../vscode-split-layout';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeSplitLayout } from '../vscode-split-layout';
 
 describe('vscode-split-layout', () => {
   it('is defined', () => {

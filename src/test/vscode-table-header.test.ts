@@ -1,5 +1,5 @@
-import {VscodeTableHeader} from '../vscode-table-header';
-import {expect} from '@open-wc/testing';
+import { expect } from '@open-wc/testing';
+import { VscodeTableHeader } from '../vscode-table-header';
 
 describe('vscode-table-header', () => {
   it('is defined', () => {

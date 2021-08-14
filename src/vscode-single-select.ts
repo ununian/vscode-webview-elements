@@ -1,8 +1,8 @@
-import {html, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {chevronDownIcon} from './includes/vscode-select/template-elements';
-import {VscodeSelectBase} from './includes/vscode-select/vscode-select-base';
+import { html, TemplateResult } from 'lit';
+import { customElement, property, state } from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { chevronDownIcon } from './includes/vscode-select/template-elements';
+import { VscodeSelectBase } from './includes/vscode-select/vscode-select-base';
 
 /**
  * ## Types
@@ -18,10 +18,10 @@ import {VscodeSelectBase} from './includes/vscode-select/vscode-select-base';
  */
 @customElement('vscode-single-select')
 export class VscodeSingleSelect extends VscodeSelectBase {
-  @property({type: String, attribute: true, reflect: true})
+  @property({ type: String, attribute: true, reflect: true })
   role = 'listbox';
 
-  @property({type: Number})
+  @property({ type: Number })
   set selectedIndex(val: number) {
     this._selectedIndex = val;
     this._value = this._options[this._selectedIndex]
@@ -31,17 +31,18 @@ export class VscodeSingleSelect extends VscodeSelectBase {
       ? this._options[this._selectedIndex].label
       : '';
   }
+
   get selectedIndex(): number {
     return this._selectedIndex;
   }
 
-  @property({type: String})
+  @property({ type: String })
   set value(val: string) {
     if (this._options[this._selectedIndex]) {
       this._options[this._selectedIndex].selected = false;
     }
 
-    this._selectedIndex = this._options.findIndex((op) => op.value === val);
+    this._selectedIndex = this._options.findIndex(op => op.value === val);
 
     if (this._selectedIndex > -1) {
       this._options[this._selectedIndex].selected = true;
@@ -52,6 +53,7 @@ export class VscodeSingleSelect extends VscodeSelectBase {
       this._value = '';
     }
   }
+
   get value(): string {
     if (this._options[this._selectedIndex]) {
       return this._options[this._selectedIndex]?.value;
@@ -68,9 +70,7 @@ export class VscodeSingleSelect extends VscodeSelectBase {
       return;
     }
 
-    const input = this.renderRoot.querySelector(
-      '.combobox-input'
-    ) as HTMLInputElement;
+    const input = this.renderRoot.querySelector('.combobox-input') as HTMLInputElement;
 
     if (input) {
       input.value = this._options[this._selectedIndex]
@@ -134,9 +134,7 @@ export class VscodeSingleSelect extends VscodeSelectBase {
 
   private _onOptionClick(ev: MouseEvent) {
     const composedPath = ev.composedPath();
-    const optEl = composedPath.find((et) =>
-      (et as HTMLElement)?.matches('li.option')
-    );
+    const optEl = composedPath.find(et => (et as HTMLElement)?.matches('li.option'));
 
     if (!optEl) {
       return;
@@ -154,23 +152,21 @@ export class VscodeSingleSelect extends VscodeSelectBase {
   }
 
   private _renderLabel() {
-    const labelContent =
-      this._labelText || html`<span class="empty-label-placeholder"></span>`;
+    const labelContent = this._labelText || html`<span class="empty-label-placeholder"></span>`;
 
     return html`<span class="text">${labelContent}</span>`;
   }
 
   protected _renderSelectFace(): TemplateResult {
     return html`
-      <div class="select-face" @click="${this._onFaceClick}">
+      <div class="select-face" @click=${this._onFaceClick}>
         ${this._renderLabel()} ${chevronDownIcon}
       </div>
     `;
   }
 
   protected _renderComboboxFace(): TemplateResult {
-    const inputVal =
-      this._selectedIndex > -1 ? this._options[this._selectedIndex].label : '';
+    const inputVal = this._selectedIndex > -1 ? this._options[this._selectedIndex].label : '';
 
     return html`
       <div class="combobox-face">
@@ -178,15 +174,15 @@ export class VscodeSingleSelect extends VscodeSelectBase {
           class="combobox-input"
           spellcheck="false"
           type="text"
-          .value="${inputVal}"
-          @focus="${this._onComboboxInputFocus}"
-          @input="${this._onComboboxInputInput}"
+          .value=${inputVal}
+          @focus=${this._onComboboxInputFocus}
+          @input=${this._onComboboxInputInput}
         />
         <button
           class="combobox-button"
           type="button"
-          @click="${this._onComboboxButtonClick}"
-          @keydown="${this._onComboboxButtonKeyDown}"
+          @click=${this._onComboboxButtonClick}
+          @keydown=${this._onComboboxButtonKeyDown}
         >
           ${chevronDownIcon}
         </button>
@@ -204,22 +200,14 @@ export class VscodeSingleSelect extends VscodeSelectBase {
       };
 
       return html`
-        <li
-          class="${classMap(classes)}"
-          data-index="${op.index}"
-          data-filtered-index="${index}"
-        >
+        <li class=${classMap(classes)} data-index=${op.index} data-filtered-index=${index}>
           ${op.label}
         </li>
       `;
     });
 
     return html`
-      <ul
-        class="options"
-        @mouseover="${this._onOptionMouseOver}"
-        @click="${this._onOptionClick}"
-      >
+      <ul class="options" @mouseover=${this._onOptionMouseOver} @click=${this._onOptionClick}>
         ${options}
       </ul>
     `;

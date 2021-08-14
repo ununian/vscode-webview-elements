@@ -1,4 +1,6 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
 import {
   customElement,
   property,
@@ -7,16 +9,15 @@ import {
   queryAssignedNodes,
   state,
 } from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {VscElement} from './includes/VscElement';
-import './vscode-scrollable';
-import {VscodeScrollable} from './vscode-scrollable';
-import {VscodeTableBody} from './vscode-table-body';
-import {VscodeTableCell} from './vscode-table-cell';
-import {VscodeTableHeader} from './vscode-table-header';
-import {VscodeTableHeaderCell} from './vscode-table-header-cell';
-import {rawValueToPercentage} from './vscode-table/helpers';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { VscElement } from './includes/VscElement';
+import { VscodeScrollable } from './vscode-scrollable';
+import { VscodeTableBody } from './vscode-table-body';
+import { VscodeTableCell } from './vscode-table-cell';
+import { VscodeTableHeader } from './vscode-table-header';
+import { VscodeTableHeaderCell } from './vscode-table-header-cell';
+import { rawValueToPercentage } from './vscode-table/helpers';
 
 const COMPONENT_WIDTH_PERCENTAGE = 100;
 
@@ -26,16 +27,16 @@ const COMPONENT_WIDTH_PERCENTAGE = 100;
  */
 @customElement('vscode-table')
 export class VscodeTable extends VscElement {
-  @property({reflect: true})
+  @property({ reflect: true })
   role = 'table';
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   resizable = false;
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   responsive = false;
 
-  @property({type: Number})
+  @property({ type: Number })
   breakpoint = 300;
 
   /**
@@ -48,7 +49,7 @@ export class VscodeTable extends VscElement {
    * - percentage value (ex.: "50%")
    * - "auto" keyword
    */
-  @property({type: Array})
+  @property({ type: Array })
   set columns(val: string[]) {
     this._columns = val;
 
@@ -56,6 +57,7 @@ export class VscodeTable extends VscElement {
       this._initDefaultColumnSizes();
     }
   }
+
   get columns(): string[] {
     return this._columns;
   }
@@ -69,16 +71,16 @@ export class VscodeTable extends VscElement {
    * - percentage value (ex.: "50%")
    * - "auto" keyword
    */
-  @property({attribute: 'min-column-width'})
+  @property({ attribute: 'min-column-width' })
   minColumnWidth = '50px';
 
-  @property({type: Boolean, attribute: 'delayed-resizing'})
+  @property({ type: Boolean, attribute: 'delayed-resizing' })
   delayedResizing = false;
 
   /**
    * For internal use only
    */
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   compact = false;
 
   @query('slot[name="body"]')
@@ -112,27 +114,41 @@ export class VscodeTable extends VscElement {
    * Sash hover state flags, used in the render.
    */
   private _sashHovers: boolean[] = [];
+
   private _columns: string[] = [];
+
   private _componentResizeObserver!: ResizeObserver;
+
   private _headerResizeObserver!: ResizeObserver;
+
   private _activeSashElementIndex = -1;
+
   private _activeSashCursorOffset = 0;
+
   private _componentX = 0;
+
   private _componentH = 0;
+
   private _componentW = 0;
+
   /**
    * Cached querySelectorAll result. Updated when the header slot changes.
    * It shouldn't be used directly, check the "_getHeaderCells" function.
    */
   private _headerCells: VscodeTableHeaderCell[] = [];
+
   /**
    * Cached querySelectorAll result. Updated when the body slot changes.
    * It shouldn't be used directly, check the "_getCellsOfFirstRow" function.
    */
   private _cellsOfFirstRow: VscodeTableCell[] = [];
+
   private _cellsToResize!: VscodeTableCell[];
+
   private _headerCellsToResize!: VscodeTableHeaderCell[];
+
   private _prevHeaderHeight = 0;
+
   private _prevComponentHeight = 0;
 
   connectedCallback(): void {
@@ -172,9 +188,7 @@ export class VscodeTable extends VscElement {
     }
 
     return Array.from(
-      headers[0].querySelectorAll<VscodeTableHeaderCell>(
-        'vscode-table-header-cell'
-      )
+      headers[0].querySelectorAll<VscodeTableHeaderCell>('vscode-table-header-cell'),
     );
   }
 
@@ -198,8 +212,8 @@ export class VscodeTable extends VscElement {
 
     return Array.from(
       assignedBodyElements[0].querySelectorAll<VscodeTableCell>(
-        'vscode-table-row:first-child vscode-table-cell'
-      )
+        'vscode-table-row:first-child vscode-table-cell',
+      ),
     );
   }
 
@@ -215,14 +229,10 @@ export class VscodeTable extends VscElement {
   }
 
   private _initResizeObserver() {
-    this._componentResizeObserver = new ResizeObserver(
-      this._componentResizeObserverCallbackBound
-    );
+    this._componentResizeObserver = new ResizeObserver(this._componentResizeObserverCallbackBound);
     this._componentResizeObserver.observe(this);
 
-    this._headerResizeObserver = new ResizeObserver(
-      this._headerResizeObserverCallbackBound
-    );
+    this._headerResizeObserver = new ResizeObserver(this._headerResizeObserverCallbackBound);
     this._headerResizeObserver.observe(this._headerElement);
   }
 
@@ -235,21 +245,18 @@ export class VscodeTable extends VscElement {
     }
   }
 
-  private _componentResizeObserverCallbackBound =
-    this._componentResizeObserverCallback.bind(this);
+  private _componentResizeObserverCallbackBound = this._componentResizeObserverCallback.bind(this);
 
   private _headerResizeObserverCallback() {
     this._updateScrollpaneSize();
   }
 
-  private _headerResizeObserverCallbackBound =
-    this._headerResizeObserverCallback.bind(this);
+  private _headerResizeObserverCallbackBound = this._headerResizeObserverCallback.bind(this);
 
   private _calcColWidthPercentages(): number[] {
     const numCols = this._getHeaderCells().length;
     let cols: (string | number)[] = this.columns.slice(0, numCols);
-    const numAutoCols =
-      cols.filter((c) => c === 'auto').length + numCols - cols.length;
+    const numAutoCols = cols.filter(c => c === 'auto').length + numCols - cols.length;
     let availablePercent = 100;
 
     cols = cols.map((col) => {
@@ -320,8 +327,8 @@ export class VscodeTable extends VscElement {
     const headerCr = this._headerElement.getBoundingClientRect();
 
     if (
-      headerCr.height === this._prevHeaderHeight &&
-      this._componentH === this._prevComponentHeight
+      headerCr.height === this._prevHeaderHeight
+      && this._componentH === this._prevComponentHeight
     ) {
       return;
     }
@@ -339,7 +346,7 @@ export class VscodeTable extends VscElement {
 
   private _applyCompactViewColumnLabels() {
     const headerCells = this._getHeaderCells();
-    const labels = headerCells.map((c) => c.innerText);
+    const labels = headerCells.map(c => c.innerText);
     const rows = this.querySelectorAll('vscode-table-row');
 
     rows.forEach((r) => {
@@ -410,7 +417,7 @@ export class VscodeTable extends VscElement {
   private _onSashMouseDown(event: MouseEvent) {
     event.stopPropagation();
 
-    const {pageX, currentTarget} = event;
+    const { pageX, currentTarget } = event;
     const el = currentTarget as HTMLDivElement;
     const index = Number(el.dataset.index);
     const cr = el.getBoundingClientRect();
@@ -431,7 +438,7 @@ export class VscodeTable extends VscElement {
 
     const tbody = this._bodySlot.assignedElements()[0];
     const cells = tbody.querySelectorAll<VscodeTableCell>(
-      'vscode-table-row:first-child > vscode-table-cell'
+      'vscode-table-row:first-child > vscode-table-cell',
     );
     this._cellsToResize = [];
     this._cellsToResize.push(cells[index]);
@@ -445,11 +452,8 @@ export class VscodeTable extends VscElement {
   }
 
   private _updateActiveSashPosition(mouseX: number) {
-    const {prevSashPos, nextSashPos} = this._getSashPositions();
-    let minColumnWidth = rawValueToPercentage(
-      this.minColumnWidth,
-      this._componentW
-    );
+    const { prevSashPos, nextSashPos } = this._getSashPositions();
+    let minColumnWidth = rawValueToPercentage(this.minColumnWidth, this._componentW);
 
     if (minColumnWidth === null) {
       minColumnWidth = 0;
@@ -460,7 +464,7 @@ export class VscodeTable extends VscElement {
       ? nextSashPos - minColumnWidth
       : COMPONENT_WIDTH_PERCENTAGE - minColumnWidth;
     let newX = this._px2Percent(
-      mouseX - this._componentX - this._percent2Px(this._activeSashCursorOffset)
+      mouseX - this._componentX - this._percent2Px(this._activeSashCursorOffset),
     );
 
     newX = Math.max(newX, minX);
@@ -474,13 +478,10 @@ export class VscodeTable extends VscElement {
     sashPos: number;
     prevSashPos: number;
     nextSashPos: number;
-  } {
+    } {
     const sashPos = this._sashPositions[this._activeSashElementIndex];
-    const prevSashPos =
-      this._sashPositions[this._activeSashElementIndex - 1] || 0;
-    const nextSashPos =
-      this._sashPositions[this._activeSashElementIndex + 1] ||
-      COMPONENT_WIDTH_PERCENTAGE;
+    const prevSashPos = this._sashPositions[this._activeSashElementIndex - 1] || 0;
+    const nextSashPos = this._sashPositions[this._activeSashElementIndex + 1] || COMPONENT_WIDTH_PERCENTAGE;
 
     return {
       sashPos,
@@ -490,7 +491,7 @@ export class VscodeTable extends VscElement {
   }
 
   private _resizeColumns(resizeBodyCells = true) {
-    const {sashPos, prevSashPos, nextSashPos} = this._getSashPositions();
+    const { sashPos, prevSashPos, nextSashPos } = this._getSashPositions();
 
     const prevColW = sashPos - prevSashPos;
     const nextColW = nextSashPos - sashPos;
@@ -587,9 +588,7 @@ export class VscodeTable extends VscElement {
         :host(:not([bordered]))
           .wrapper:not(.compact-view):hover
           .scrollable:not([scrolled]):before,
-        :host([bordered])
-          .wrapper:not(.compact-view)
-          .scrollable:not([scrolled]):before {
+        :host([bordered]) .wrapper:not(.compact-view) .scrollable:not([scrolled]):before {
           background-color: var(--vscode-editorGroup-border);
         }
 
@@ -653,24 +652,22 @@ export class VscodeTable extends VscElement {
       return this.resizable
         ? html`
             <div
-              class="${classMap(classes)}"
-              data-index="${index}"
-              style="${styleMap({left})}"
-              @mousedown="${this._onSashMouseDown}"
-              @mouseover="${this._onSashMouseOver}"
-              @mouseout="${this._onSashMouseOut}"
+              class=${classMap(classes)}
+              data-index=${index}
+              style=${styleMap({ left })}
+              @mousedown=${this._onSashMouseDown}
+              @mouseover=${this._onSashMouseOver}
+              @mouseout=${this._onSashMouseOut}
             >
               <div class="sash-visible"></div>
               <div class="sash-clickable"></div>
             </div>
           `
-        : html`<div
-            class="${classMap(classes)}"
-            data-index="${index}"
-            style="${styleMap({left})}"
-          >
-            <div class="sash-visible"></div>
-          </div>`;
+        : html`
+            <div class=${classMap(classes)} data-index=${index} style=${styleMap({ left })}>
+              <div class="sash-visible"></div>
+            </div>
+          `;
     });
 
     const wrapperClasses = {
@@ -681,8 +678,8 @@ export class VscodeTable extends VscElement {
     };
 
     return html`
-      <div class="${classMap(wrapperClasses)}">
-        <div class="header" @slotchange="${this._onHeaderSlotChange}">
+      <div class=${classMap(wrapperClasses)}>
+        <div class="header" @slotchange=${this._onHeaderSlotChange}>
           <slot name="caption"></slot>
           <div class="header-slot-wrapper">
             <slot name="header"></slot>
@@ -690,7 +687,7 @@ export class VscodeTable extends VscElement {
         </div>
         <vscode-scrollable class="scrollable">
           <div>
-            <slot name="body" @slotchange="${this._onBodySlotChange}"></slot>
+            <slot name="body" @slotchange=${this._onBodySlotChange}></slot>
           </div>
         </vscode-scrollable>
         ${sashes}

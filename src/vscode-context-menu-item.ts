@@ -1,14 +1,20 @@
-import {css, CSSResultGroup, html, nothing, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, nothing, TemplateResult,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-context-menu-item')
 export class VscodeContextMenuItem extends VscElement {
-  @property({type: String}) label = '';
-  @property({type: String}) keybinding = '';
-  @property({type: String}) value = '';
-  @property({type: Boolean}) separator = false;
-  @property({type: Number}) tabindex = 0;
+  @property({ type: String }) label = '';
+
+  @property({ type: String }) keybinding = '';
+
+  @property({ type: String }) value = '';
+
+  @property({ type: Boolean }) separator = false;
+
+  @property({ type: Number }) tabindex = 0;
 
   private onItemClick() {
     this.dispatchEvent(
@@ -22,7 +28,7 @@ export class VscodeContextMenuItem extends VscElement {
         },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -100,20 +106,18 @@ export class VscodeContextMenuItem extends VscElement {
   render(): TemplateResult {
     return html`
       ${this.separator
-        ? html`
+    ? html`
             <div class="context-menu-item separator">
               <span class="rule"></span>
             </div>
           `
-        : html`
+    : html`
             <div class="context-menu-item">
-              <a @click="${this.onItemClick}">
-                ${this.label
-                  ? html`<span class="label">${this.label}</span>`
-                  : nothing}
+              <a @click=${this.onItemClick}>
+                ${this.label ? html`<span class="label">${this.label}</span>` : nothing}
                 ${this.keybinding
-                  ? html`<span class="keybinding">${this.keybinding}</span>`
-                  : nothing}
+    ? html`<span class="keybinding">${this.keybinding}</span>`
+    : nothing}
               </a>
             </div>
           `}

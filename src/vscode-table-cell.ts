@@ -1,10 +1,12 @@
-import {html, css, TemplateResult, nothing, CSSResultGroup} from 'lit';
-import {customElement, property} from 'lit/decorators';
-import {VscElement} from './includes/VscElement';
+import {
+  html, css, TemplateResult, nothing, CSSResultGroup,
+} from 'lit';
+import { customElement, property } from 'lit/decorators';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-table-cell')
 export class VscodeTableCell extends VscElement {
-  @property({reflect: true})
+  @property({ reflect: true })
   role = 'cell';
 
   /**
@@ -16,7 +18,7 @@ export class VscodeTableCell extends VscElement {
   /**
    * Enable compact view in the responsive mode. For internal use only.
    */
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   compact = false;
 
   static get styles(): CSSResultGroup {
@@ -73,9 +75,7 @@ export class VscodeTableCell extends VscElement {
 
   render(): TemplateResult {
     const columnLabelElement = this.columnLabel
-      ? html`<div class="column-label" role="presentation">
-          ${this.columnLabel}
-        </div>`
+      ? html`<div class="column-label" role="presentation">${this.columnLabel}</div>`
       : nothing;
 
     return html`

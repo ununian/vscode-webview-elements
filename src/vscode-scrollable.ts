@@ -1,15 +1,19 @@
-import {css, CSSResultGroup, html, TemplateResult} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators';
-import {classMap} from 'lit/directives/class-map';
-import {styleMap} from 'lit/directives/style-map';
-import {VscElement} from './includes/VscElement';
+import {
+  css, CSSResultGroup, html, TemplateResult,
+} from 'lit';
+import {
+  customElement, property, query, state,
+} from 'lit/decorators';
+import { classMap } from 'lit/directives/class-map';
+import { styleMap } from 'lit/directives/style-map';
+import { VscElement } from './includes/VscElement';
 
 @customElement('vscode-scrollable')
 export class VscodeScrollable extends VscElement {
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   shadow = true;
 
-  @property({type: Boolean, reflect: true})
+  @property({ type: Boolean, reflect: true })
   scrolled = false;
 
   @state()
@@ -40,16 +44,17 @@ export class VscodeScrollable extends VscElement {
   private _scrollableContainer!: HTMLDivElement;
 
   private _resizeObserver!: ResizeObserver;
+
   private _scrollThumbStartY = 0;
+
   private _mouseStartY = 0;
+
   private _scrollbarVisible = true;
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    this._resizeObserver = new ResizeObserver(
-      this._resizeObserverCallbackBound
-    );
+    this._resizeObserver = new ResizeObserver(this._resizeObserverCallbackBound);
 
     this._resizeObserver.observe(this);
 
@@ -58,7 +63,7 @@ export class VscodeScrollable extends VscElement {
     this.updateComplete.then(() => {
       this._scrollableContainer.addEventListener(
         'scroll',
-        this._onScrollableContainerScroll.bind(this)
+        this._onScrollableContainerScroll.bind(this),
       );
     });
 
@@ -80,8 +85,7 @@ export class VscodeScrollable extends VscElement {
     this._updateScrollbar();
   }
 
-  private _resizeObserverCallbackBound =
-    this._resizeObserverCallback.bind(this);
+  private _resizeObserverCallbackBound = this._resizeObserverCallback.bind(this);
 
   private _updateScrollbar() {
     const compCr = this.getBoundingClientRect();
@@ -115,8 +119,7 @@ export class VscodeScrollable extends VscElement {
   }
 
   private _onScrollThumbMouseMove(event: MouseEvent) {
-    const predictedPos =
-      this._scrollThumbStartY + (event.screenY - this._mouseStartY);
+    const predictedPos = this._scrollThumbStartY + (event.screenY - this._mouseStartY);
     let nextPos = 0;
     const cmpH = this.getBoundingClientRect().height;
     const thumbH = this._scrollThumbElement.getBoundingClientRect().height;
@@ -131,37 +134,34 @@ export class VscodeScrollable extends VscElement {
     }
 
     this._thumbY = nextPos;
-    this._scrollableContainer.scrollTop =
-      (nextPos / (cmpH - thumbH)) * (contentH - cmpH);
+    this._scrollableContainer.scrollTop = (nextPos / (cmpH - thumbH)) * (contentH - cmpH);
   }
 
-  private _onScrollThumbMouseMoveBound =
-    this._onScrollThumbMouseMove.bind(this);
+  private _onScrollThumbMouseMoveBound = this._onScrollThumbMouseMove.bind(this);
 
   private _onScrollThumbMouseUp(event: MouseEvent) {
     this._isDragging = false;
     this._thumbActive = false;
 
     const cr = this.getBoundingClientRect();
-    const {x, y, width, height} = cr;
-    const {pageX, pageY} = event;
+    const {
+      x, y, width, height,
+    } = cr;
+    const { pageX, pageY } = event;
 
     if (pageX > x + width || pageX < x || pageY > y + height || pageY < y) {
       this._thumbFade = true;
       this._thumbVisible = false;
     }
 
-    document.removeEventListener(
-      'mousemove',
-      this._onScrollThumbMouseMoveBound
-    );
+    document.removeEventListener('mousemove', this._onScrollThumbMouseMoveBound);
     document.removeEventListener('mouseup', this._onScrollThumbMouseUpBound);
   }
 
   private _onScrollThumbMouseUpBound = this._onScrollThumbMouseUp.bind(this);
 
   private _onScrollableContainerScroll() {
-    const scrollTop = this._scrollableContainer.scrollTop;
+    const { scrollTop } = this._scrollableContainer;
     this.scrolled = scrollTop > 0;
 
     const cmpH = this.getBoundingClientRect().height;
@@ -275,7 +275,7 @@ export class VscodeScrollable extends VscElement {
   }
 
   render(): TemplateResult {
-    const shadowClasses = {shadow: true, visible: this.scrolled};
+    const shadowClasses = { shadow: true, visible: this.scrolled };
     const thumbClasses = {
       'scrollbar-thumb': true,
       visible: this._thumbVisible,
@@ -290,23 +290,23 @@ export class VscodeScrollable extends VscElement {
     return html`
       <div
         class="scrollable-container"
-        style="${styleMap({
-          'user-select': this._isDragging ? 'none' : 'auto',
-        })}"
+        style=${styleMap({
+    'user-select': this._isDragging ? 'none' : 'auto',
+  })}
       >
-        <div class="${classMap(shadowClasses)}"></div>
-        <div class="${classMap(scrollbarClasses)}">
+        <div class=${classMap(shadowClasses)}></div>
+        <div class=${classMap(scrollbarClasses)}>
           <div
-            class="${classMap(thumbClasses)}"
-            style="${styleMap({
-              height: `${this._thumbHeight}px`,
-              top: `${this._thumbY}px`,
-            })}"
+            class=${classMap(thumbClasses)}
+            style=${styleMap({
+    height: `${this._thumbHeight}px`,
+    top: `${this._thumbY}px`,
+  })}
             @mousedown=${this._onScrollThumbMouseDown}
           ></div>
         </div>
         <div class="content">
-          <slot @slotchange="${this._onSlotChange}"></slot>
+          <slot @slotchange=${this._onSlotChange}></slot>
         </div>
       </div>
     `;
