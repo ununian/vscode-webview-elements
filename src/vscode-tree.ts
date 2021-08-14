@@ -1,12 +1,11 @@
-import {
-  css, CSSResultGroup, html, nothing, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, nothing, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { styleMap } from 'lit/directives/style-map';
 import { VscElement } from './includes/VscElement';
 import './vscode-icon';
 
+// eslint-disable-next-line no-shadow
 enum KeyName {
   ARROW_DOWN = 'ArrowDown',
   ARROW_UP = 'ArrowUp',
@@ -32,6 +31,7 @@ interface TreeItem {
   path?: number[];
 }
 
+// eslint-disable-next-line no-shadow
 enum ItemType {
   BRANCH = 'branch',
   LEAF = 'leaf',
@@ -52,9 +52,7 @@ const mapData = (tree: TreeItem[], prevPath: number[] = []): TreeItem[] => {
   const nextTree: TreeItem[] = [];
 
   tree.forEach((val, index) => {
-    const {
-      label, subItems, open, selected, focused, icons, value,
-    } = val;
+    const { label, subItems, open, selected, focused, icons, value } = val;
     const path = [...prevPath, index];
     const nextItem: TreeItem = {
       label,
@@ -212,18 +210,21 @@ export class VscodeTree extends VscElement {
     const contentsClasses = ['contents'];
     const liClasses = open ? ['open'] : [];
     const indentSize = indentLevel * this.indent;
-    const padLeft = this.arrows && itemType === ItemType.LEAF ? ARROW_OUTER_WIDTH + indentSize : indentSize;
-    const arrowMarkup = this.arrows && itemType === ItemType.BRANCH
-      ? html`<vscode-icon name=${arrowIconName} class="icon-arrow"></vscode-icon>`
-      : nothing;
+    const padLeft =
+      this.arrows && itemType === ItemType.LEAF ? ARROW_OUTER_WIDTH + indentSize : indentSize;
+    const arrowMarkup =
+      this.arrows && itemType === ItemType.BRANCH
+        ? html`<vscode-icon name=${arrowIconName} class="icon-arrow"></vscode-icon>`
+        : nothing;
     const iconMarkup = iconName
       ? html`<vscode-icon name=${iconName} class="label-icon"></vscode-icon>`
       : nothing;
-    const subTreeMarkup = open && itemType === ItemType.BRANCH
-      ? html`<ul>
+    const subTreeMarkup =
+      open && itemType === ItemType.BRANCH
+        ? html`<ul>
             ${this.renderTree(subItems, path)}
           </ul>`
-      : nothing;
+        : nothing;
     const labelMarkup = html`<span class="label">${label}</span>`;
 
     liClasses.push(itemType === ItemType.LEAF ? 'leaf' : 'branch');
@@ -258,9 +259,7 @@ export class VscodeTree extends VscElement {
       const indentLevel = path.length - 1;
       const itemType = this.getItemType(element);
       const iconName = this.getIconName(element);
-      const {
-        label, open = false, selected = false, focused = false, subItems = [],
-      } = element;
+      const { label, open = false, selected = false, focused = false, subItems = [] } = element;
 
       if (selected) {
         this._selectedItem = element;
@@ -293,6 +292,7 @@ export class VscodeTree extends VscElement {
       return;
     }
 
+    // eslint-disable-next-line no-param-reassign
     item.open = !item.open;
   }
 
@@ -302,6 +302,7 @@ export class VscodeTree extends VscElement {
     }
 
     this._selectedItem = item;
+    // eslint-disable-next-line no-param-reassign
     item.selected = true;
   }
 
@@ -311,11 +312,13 @@ export class VscodeTree extends VscElement {
     }
 
     this._focusedItem = item;
+    // eslint-disable-next-line no-param-reassign
     item.focused = true;
   }
 
   private closeSubTreeRecursively(tree: TreeItem[]) {
-    tree.forEach((item) => {
+    tree.forEach(item => {
+      // eslint-disable-next-line no-param-reassign
       item.open = false;
 
       if (item.subItems && item.subItems.length > 0) {
@@ -325,9 +328,7 @@ export class VscodeTree extends VscElement {
   }
 
   private emitSelectEvent(item: TreeItem, path: string) {
-    const {
-      icons, label, open, value,
-    } = item;
+    const { icons, label, open, value } = item;
     const detail = {
       icons,
       itemType: this.getItemType(item),
@@ -400,9 +401,9 @@ export class VscodeTree extends VscElement {
     const { path, open } = this._focusedItem;
 
     if (
-      open
-      && Array.isArray(this._focusedItem.subItems)
-      && this._focusedItem.subItems.length > 0
+      open &&
+      Array.isArray(this._focusedItem.subItems) &&
+      this._focusedItem.subItems.length > 0
     ) {
       this._focusItem(this._focusedItem.subItems[0]);
       return;
@@ -432,7 +433,8 @@ export class VscodeTree extends VscElement {
   private onComponentClick(event: MouseEvent) {
     const composedPath = event.composedPath();
     const targetElement = composedPath.find(
-      (el: EventTarget) => (el as HTMLElement).tagName && (el as HTMLElement).tagName.toUpperCase() === 'LI',
+      (el: EventTarget) =>
+        (el as HTMLElement).tagName && (el as HTMLElement).tagName.toUpperCase() === 'LI',
     );
 
     if (targetElement) {

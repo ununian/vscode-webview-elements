@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators';
 import { VscElement } from './includes/VscElement';
 
@@ -32,12 +30,13 @@ export class VscodeTabs extends VscElement {
       return;
     }
 
-    Array.from(this._mainSlot.assignedElements()).forEach((el: Element, i) => {
-      (el as HTMLElement).style.display = i === this._selectedIndex ? 'block' : 'none';
-    });
+    const elements = Array.from(this._mainSlot.assignedElements()) as HTMLElement[];
 
-    Array.from(this._headerSlot.assignedElements()).forEach((el: Element, i) => {
-      (el as HTMLElement).dataset.index = String(i);
+    elements.forEach((_, i) => {
+      const el = elements[i];
+
+      el.style.display = i === this._selectedIndex ? 'block' : 'none';
+      el.dataset.index = String(i);
       el.classList.toggle('is-active', i === this._selectedIndex);
     });
 

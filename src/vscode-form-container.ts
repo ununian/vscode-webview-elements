@@ -1,9 +1,5 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
-import {
-  customElement, property, query, queryAssignedNodes,
-} from 'lit/decorators';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
+import { customElement, property, query, queryAssignedNodes } from 'lit/decorators';
 import { VscElement } from './includes/VscElement';
 import { VscodeCheckbox } from './vscode-checkbox';
 import { VscodeCheckboxGroup } from './vscode-checkbox-group';
@@ -14,6 +10,7 @@ import { VscodeRadio } from './vscode-radio';
 import { VscodeRadioGroup } from './vscode-radio-group';
 import { VscodeSingleSelect } from './vscode-single-select';
 
+// eslint-disable-next-line no-shadow
 enum FormGroupLayout {
   HORIZONTAL = 'horizontal',
   VERTICAL = 'vertical',
@@ -32,15 +29,20 @@ interface FormData {
   [key: string]: string | string[];
 }
 
-const isInputbox = (el: Element): el is VscodeInputbox => el.tagName.toLocaleLowerCase() === 'vscode-inputbox';
+const isInputbox = (el: Element): el is VscodeInputbox =>
+  el.tagName.toLocaleLowerCase() === 'vscode-inputbox';
 
-const isSingleSelect = (el: Element): el is VscodeSingleSelect => el.tagName.toLocaleLowerCase() === 'vscode-single-select';
+const isSingleSelect = (el: Element): el is VscodeSingleSelect =>
+  el.tagName.toLocaleLowerCase() === 'vscode-single-select';
 
-const isMultiSelect = (el: Element): el is VscodeMultiSelect => el.tagName.toLocaleLowerCase() === 'vscode-multi-select';
+const isMultiSelect = (el: Element): el is VscodeMultiSelect =>
+  el.tagName.toLocaleLowerCase() === 'vscode-multi-select';
 
-const isCheckbox = (el: Element): el is VscodeCheckbox => el.tagName.toLocaleLowerCase() === 'vscode-checkbox';
+const isCheckbox = (el: Element): el is VscodeCheckbox =>
+  el.tagName.toLocaleLowerCase() === 'vscode-checkbox';
 
-const isRadio = (el: Element): el is VscodeRadio => el.tagName.toLocaleLowerCase() === 'vscode-radio';
+const isRadio = (el: Element): el is VscodeRadio =>
+  el.tagName.toLocaleLowerCase() === 'vscode-radio';
 
 @customElement('vscode-form-container')
 export class VscodeFormContainer extends VscElement {
@@ -84,17 +86,17 @@ export class VscodeFormContainer extends VscElement {
   private _currentFormGroupLayout!: FormGroupLayout;
 
   private _collectFormData() {
-    const query = [
+    const tagNames = [
       'vscode-inputbox',
       'vscode-single-select',
       'vscode-multi-select',
       'vscode-checkbox',
       'vscode-radio',
     ].join(',');
-    const vscFormWidgets = this.querySelectorAll(query) as NodeListOf<VscFormWidget>;
+    const vscFormWidgets = this.querySelectorAll(tagNames) as NodeListOf<VscFormWidget>;
     const data: FormData = {};
 
-    vscFormWidgets.forEach((widget) => {
+    vscFormWidgets.forEach(widget => {
       if (!widget.hasAttribute('name')) {
         return;
       }
@@ -114,9 +116,9 @@ export class VscodeFormContainer extends VscElement {
       } else if (isCheckbox(widget) && !widget.checked) {
         data[name] = Array.isArray(data[name]) ? data[name] : [];
       } else if (
-        (isRadio(widget) && widget.checked)
-        || isInputbox(widget)
-        || isSingleSelect(widget)
+        (isRadio(widget) && widget.checked) ||
+        isInputbox(widget) ||
+        isSingleSelect(widget)
       ) {
         data[name] = widget.value;
       } else if (isRadio(widget) && !widget.checked) {
@@ -132,7 +134,9 @@ export class VscodeFormContainer extends VscElement {
       el => el.matches && el.matches('vscode-form-group'),
     );
 
-    formGroups.forEach((group) => {
+    formGroups.forEach((_formGroup, formGroupIndex) => {
+      const group = formGroups[formGroupIndex];
+
       if (!group.dataset.originalVariant) {
         group.dataset.originalVariant = group.variant;
       }
@@ -149,7 +153,9 @@ export class VscodeFormContainer extends VscElement {
         'vscode-checkbox-group, vscode-radio-group',
       ) as NodeListOf<CheckboxOrRadioGroup>;
 
-      checkboxOrRadioGroup.forEach((widgetGroup) => {
+      checkboxOrRadioGroup.forEach((_widgetGroup, widgetGroupIndex) => {
+        const widgetGroup = checkboxOrRadioGroup[widgetGroupIndex];
+
         if (!widgetGroup.dataset.originalVariant) {
           widgetGroup.dataset.originalVariant = widgetGroup.variant;
         }
@@ -157,8 +163,8 @@ export class VscodeFormContainer extends VscElement {
         const { originalVariant } = widgetGroup.dataset;
 
         if (
-          layout === FormGroupLayout.HORIZONTAL
-          && originalVariant === FormGroupLayout.HORIZONTAL
+          layout === FormGroupLayout.HORIZONTAL &&
+          originalVariant === FormGroupLayout.HORIZONTAL
         ) {
           widgetGroup.variant = 'horizontal';
         } else {
@@ -175,7 +181,8 @@ export class VscodeFormContainer extends VscElement {
       wrapperWidth = entry.contentRect.width;
     }
 
-    const nextLayout: FormGroupLayout = wrapperWidth < this.breakpoint ? FormGroupLayout.VERTICAL : FormGroupLayout.HORIZONTAL;
+    const nextLayout: FormGroupLayout =
+      wrapperWidth < this.breakpoint ? FormGroupLayout.VERTICAL : FormGroupLayout.HORIZONTAL;
 
     if (nextLayout !== this._currentFormGroupLayout) {
       this._toggleCompactLayout(nextLayout);

@@ -1,9 +1,5 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
-import {
-  customElement, property, query, state,
-} from 'lit/decorators';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { styleMap } from 'lit/directives/style-map';
 import { VscElement } from './includes/VscElement';
@@ -144,9 +140,7 @@ export class VscodeScrollable extends VscElement {
     this._thumbActive = false;
 
     const cr = this.getBoundingClientRect();
-    const {
-      x, y, width, height,
-    } = cr;
+    const { x, y, width, height } = cr;
     const { pageX, pageY } = event;
 
     if (pageX > x + width || pageX < x || pageY > y + height || pageY < y) {
@@ -291,17 +285,17 @@ export class VscodeScrollable extends VscElement {
       <div
         class="scrollable-container"
         style=${styleMap({
-    'user-select': this._isDragging ? 'none' : 'auto',
-  })}
+          'user-select': this._isDragging ? 'none' : 'auto',
+        })}
       >
         <div class=${classMap(shadowClasses)}></div>
         <div class=${classMap(scrollbarClasses)}>
           <div
             class=${classMap(thumbClasses)}
             style=${styleMap({
-    height: `${this._thumbHeight}px`,
-    top: `${this._thumbY}px`,
-  })}
+              height: `${this._thumbHeight}px`,
+              top: `${this._thumbY}px`,
+            })}
             @mousedown=${this._onScrollThumbMouseDown}
           ></div>
         </div>

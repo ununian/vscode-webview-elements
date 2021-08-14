@@ -1,15 +1,12 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
-import {
-  customElement, property, query, state,
-} from 'lit/decorators';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { styleMap } from 'lit/directives/style-map';
 import { ifDefined } from 'lit/directives/if-defined';
 import { INPUT_LINE_HEIGHT_RATIO } from './includes/helpers';
 import { VscElement } from './includes/VscElement';
 
+// eslint-disable-next-line no-shadow
 enum Severity {
   DEFAULT = 'default',
   INFO = 'info',
@@ -101,7 +98,6 @@ export class VscodeInputbox extends VscElement {
   /**
    * Text-like input types
    * @attr type
-   * @type {"color"|"date"|"datetime-local"|"email"|"file"|"month"|"number"|"password"|"tel"|"text"|"time"|"url"|"week"}
    */
   @property({ type: String })
   type: InputType = 'text';
@@ -227,7 +223,8 @@ export class VscodeInputbox extends VscElement {
     const x = event.clientX;
     const SCROLLBAR_WIDTH = 10;
 
-    this._textareaDefaultCursor = x <= br.left + br.width && x >= br.left + br.width - SCROLLBAR_WIDTH - BORDER_WIDTH * 2;
+    this._textareaDefaultCursor =
+      x <= br.left + br.width && x >= br.left + br.width - SCROLLBAR_WIDTH - BORDER_WIDTH * 2;
 
     this.requestUpdate();
   };
@@ -461,8 +458,8 @@ export class VscodeInputbox extends VscElement {
     };
     const measurerContent = this.value
       ? this.value
-        .split('\n')
-        .map(line => (line ? html`<div>${line}</div>` : html`<div>&nbsp;</div>`))
+          .split('\n')
+          .map(line => (line ? html`<div>${line}</div>` : html`<div>&nbsp;</div>`))
       : html`&nbsp;`;
 
     const textarea = html`
@@ -473,9 +470,9 @@ export class VscodeInputbox extends VscElement {
         @change=${this.onInputChange}
         @mousemove=${this.onTextareaMouseMove}
         class=${classMap({
-    'cursor-default': this._textareaDefaultCursor,
-    'input-element': true,
-  })}
+          'cursor-default': this._textareaDefaultCursor,
+          'input-element': true,
+        })}
         minlength=${ifDefined(this.minLength)}
         maxlength=${ifDefined(this.maxLength)}
         placeholder=${this.placeholder}

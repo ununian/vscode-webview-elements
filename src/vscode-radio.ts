@@ -47,7 +47,9 @@ export class VscodeRadio extends FormButtonWidgetBase {
     ) as NodeListOf<VscodeRadio>;
     this._checked = true;
 
-    radios.forEach((r) => {
+    radios.forEach((_, i) => {
+      const r = radios[i];
+
       if (r !== this) {
         r.checked = false;
       }

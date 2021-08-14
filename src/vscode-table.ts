@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
 import {
   customElement,
   property,
@@ -259,7 +257,7 @@ export class VscodeTable extends VscElement {
     const numAutoCols = cols.filter(c => c === 'auto').length + numCols - cols.length;
     let availablePercent = 100;
 
-    cols = cols.map((col) => {
+    cols = cols.map(col => {
       const percentage = rawValueToPercentage(col, this._componentW);
 
       if (percentage === null) {
@@ -277,7 +275,7 @@ export class VscodeTable extends VscElement {
       }
     }
 
-    cols = cols.map((col) => {
+    cols = cols.map(col => {
       if (col === 'auto') {
         return availablePercent / numAutoCols;
       }
@@ -289,13 +287,19 @@ export class VscodeTable extends VscElement {
   }
 
   private _initHeaderCellSizes(colWidths: number[]) {
-    this._getHeaderCells().forEach((cell, index) => {
+    const cells = this._getHeaderCells();
+
+    cells.forEach((_, index) => {
+      const cell = cells[index];
       cell.style.width = `${colWidths[index]}%`;
     });
   }
 
   private _initBodyColumnSizes(colWidths: number[]) {
-    this._getCellsOfFirstRow().forEach((cell, index) => {
+    const cells = this._getCellsOfFirstRow();
+
+    cells.forEach((_, index) => {
+      const cell = cells[index];
       cell.style.width = `${colWidths[index]}%`;
     });
   }
@@ -327,8 +331,8 @@ export class VscodeTable extends VscElement {
     const headerCr = this._headerElement.getBoundingClientRect();
 
     if (
-      headerCr.height === this._prevHeaderHeight
-      && this._componentH === this._prevComponentHeight
+      headerCr.height === this._prevHeaderHeight &&
+      this._componentH === this._prevComponentHeight
     ) {
       return;
     }
@@ -338,7 +342,8 @@ export class VscodeTable extends VscElement {
     const scrollableH = this._componentH - headerCr.height;
     this._scrollableElement.style.height = `${scrollableH}px`;
 
-    this._sashVisibleElements.forEach((el) => {
+    this._sashVisibleElements.forEach((_, i) => {
+      const el = this._sashVisibleElements[i];
       el.style.height = `${scrollableH}px`;
       el.style.top = `${headerCr.height}px`;
     });
@@ -349,10 +354,11 @@ export class VscodeTable extends VscElement {
     const labels = headerCells.map(c => c.innerText);
     const rows = this.querySelectorAll('vscode-table-row');
 
-    rows.forEach((r) => {
+    rows.forEach(r => {
       const cells = r.querySelectorAll('vscode-table-cell');
 
-      cells.forEach((c, i) => {
+      cells.forEach((_, i) => {
+        const c = cells[i];
         c.columnLabel = labels[i];
         c.compact = true;
       });
@@ -360,7 +366,10 @@ export class VscodeTable extends VscElement {
   }
 
   private _clearCompactViewColumnLabels() {
-    this.querySelectorAll('vscode-table-cell').forEach((c) => {
+    const cells = this.querySelectorAll('vscode-table-cell');
+
+    cells.forEach((_, i) => {
+      const c = cells[i];
       c.columnLabel = '';
       c.compact = false;
     });
@@ -478,10 +487,11 @@ export class VscodeTable extends VscElement {
     sashPos: number;
     prevSashPos: number;
     nextSashPos: number;
-    } {
+  } {
     const sashPos = this._sashPositions[this._activeSashElementIndex];
     const prevSashPos = this._sashPositions[this._activeSashElementIndex - 1] || 0;
-    const nextSashPos = this._sashPositions[this._activeSashElementIndex + 1] || COMPONENT_WIDTH_PERCENTAGE;
+    const nextSashPos =
+      this._sashPositions[this._activeSashElementIndex + 1] || COMPONENT_WIDTH_PERCENTAGE;
 
     return {
       sashPos,

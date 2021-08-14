@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators';
 import { VscElement } from './includes/VscElement';
 

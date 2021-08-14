@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { styleMap } from 'lit/directives/style-map';
@@ -51,7 +49,7 @@ export class VscodeIcon extends VscElement {
   private _getStylesheetConfig(): {
     href: string | undefined;
     nonce: string | undefined;
-    } {
+  } {
     const linkElement = document.getElementById('vscode-codicon-stylesheet');
     const href = linkElement?.getAttribute('href') || undefined;
     const nonce = linkElement?.getAttribute('nonce') || undefined;
@@ -122,16 +120,16 @@ export class VscodeIcon extends VscElement {
       <span class="wrapper">
         <span
           class=${classMap({
-    codicon: true,
-    [`codicon-${this.name}`]: true,
-    spin: this.spin,
-  })}
+            codicon: true,
+            [`codicon-${this.name}`]: true,
+            spin: this.spin,
+          })}
           style=${styleMap({
-    animationDuration: `${String(this.spinDuration)}s`,
-    fontSize: `${this.size}px`,
-    height: `${this.size}px`,
-    width: `${this.size}px`,
-  })}
+            animationDuration: `${String(this.spinDuration)}s`,
+            fontSize: `${this.size}px`,
+            height: `${this.size}px`,
+            width: `${this.size}px`,
+          })}
         ></span>
       </span>
     `;

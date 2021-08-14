@@ -8,9 +8,11 @@ export const startsWithPerTermMatch = (subject: string, pattern: string): boolea
   return terms.some(t => t.indexOf(lcPattern) === 0);
 };
 
-export const startsWithMatch = (subject: string, pattern: string): boolean => subject.toLowerCase().indexOf(pattern.toLowerCase()) === 0;
+export const startsWithMatch = (subject: string, pattern: string): boolean =>
+  subject.toLowerCase().indexOf(pattern.toLowerCase()) === 0;
 
-export const containsMatch = (subject: string, pattern: string): boolean => subject.toLowerCase().indexOf(pattern.toLowerCase()) > -1;
+export const containsMatch = (subject: string, pattern: string): boolean =>
+  subject.toLowerCase().indexOf(pattern.toLowerCase()) > -1;
 
 export const fuzzyMatch = (subject: string, pattern: string): boolean => {
   let iFrom = 0;
@@ -36,15 +38,16 @@ export const filterOptionsByPattern = (
   list: InternalOption[],
   pattern: string,
   method: SearchMethod,
-): InternalOption[] => list.filter(({ label }) => {
-  switch (method) {
-    case 'startsWithPerTerm':
-      return startsWithPerTermMatch(label, pattern);
-    case 'startsWith':
-      return startsWithMatch(label, pattern);
-    case 'contains':
-      return containsMatch(label, pattern);
-    default:
-      return fuzzyMatch(label, pattern);
-  }
-});
+): InternalOption[] =>
+  list.filter(({ label }) => {
+    switch (method) {
+      case 'startsWithPerTerm':
+        return startsWithPerTermMatch(label, pattern);
+      case 'startsWith':
+        return startsWithMatch(label, pattern);
+      case 'contains':
+        return containsMatch(label, pattern);
+      default:
+        return fuzzyMatch(label, pattern);
+    }
+  });

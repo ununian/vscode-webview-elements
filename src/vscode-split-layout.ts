@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { styleMap } from 'lit/directives/style-map';
@@ -127,9 +125,7 @@ export class VscodeSplitLayout extends VscElement {
 
   private _handleMouseMove(event: MouseEvent) {
     const { clientX, clientY } = event;
-    const {
-      left, top, height, width,
-    } = this._boundRect;
+    const { left, top, height, width } = this._boundRect;
 
     if (this.split === 'vertical') {
       const mouseXLocal = clientX - left;

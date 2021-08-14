@@ -1,6 +1,4 @@
-import {
-  css, CSSResultGroup, html, nothing, TemplateResult,
-} from 'lit';
+import { css, CSSResultGroup, html, nothing, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators';
 import { VscElement } from './includes/VscElement';
 import './vscode-context-menu-item';
@@ -119,14 +117,14 @@ export class VscodeContextMenu extends VscElement {
     const menu = html`
       <div class="context-menu">
         ${this.data
-    ? this.data.map(
-      ({
-        label = '',
-        keybinding = '',
-        value = '',
-        separator = false,
-        tabindex = 0,
-      }) => html`
+          ? this.data.map(
+              ({
+                label = '',
+                keybinding = '',
+                value = '',
+                separator = false,
+                tabindex = 0,
+              }) => html`
                 <vscode-context-menu-item
                   label=${label}
                   keybinding=${keybinding}
@@ -136,8 +134,8 @@ export class VscodeContextMenu extends VscElement {
                   @vsc-click=${this.onItemClick}
                 ></vscode-context-menu-item>
               `,
-    )
-    : html`<slot></slot>`}
+            )
+          : html`<slot></slot>`}
       </div>
     `;
 

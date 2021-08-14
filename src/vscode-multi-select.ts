@@ -29,7 +29,7 @@ export class VscodeMultiSelect extends VscodeSelectBase {
 
   private _onOptionClick(ev: MouseEvent) {
     const composedPath = ev.composedPath();
-    const optEl = composedPath.find((et) => {
+    const optEl = composedPath.find(et => {
       if ('matches' in et) {
         return (et as HTMLElement).matches('li.option');
       }
@@ -50,7 +50,7 @@ export class VscodeMultiSelect extends VscodeSelectBase {
     this._selectedIndexes = [];
     this._values = [];
 
-    this._options.forEach((op) => {
+    this._options.forEach(op => {
       if (op.selected) {
         this._selectedIndexes.push(op.index);
         this._values.push(op.value);
@@ -135,21 +135,21 @@ export class VscodeMultiSelect extends VscodeSelectBase {
     return html`
       <ul class="options" @click=${this._onOptionClick} @mouseover=${this._onOptionMouseOver}>
         ${repeat(
-    list,
-    op => op.index,
-    (op, index) => {
-      const selected = this._selectedIndexes.includes(op.index);
-      const optionClasses = {
-        active: index === this._activeIndex,
-        option: true,
-        selected,
-      };
-      const checkboxClasses = {
-        'checkbox-icon': true,
-        checked: selected,
-      };
+          list,
+          op => op.index,
+          (op, index) => {
+            const selected = this._selectedIndexes.includes(op.index);
+            const optionClasses = {
+              active: index === this._activeIndex,
+              option: true,
+              selected,
+            };
+            const checkboxClasses = {
+              'checkbox-icon': true,
+              checked: selected,
+            };
 
-      return html`
+            return html`
               <li
                 class=${classMap(optionClasses)}
                 data-index=${op.index}
@@ -159,8 +159,8 @@ export class VscodeMultiSelect extends VscodeSelectBase {
                 <span class="option-label">${op.label}</span>
               </li>
             `;
-    },
-  )}
+          },
+        )}
       </ul>
     `;
   }

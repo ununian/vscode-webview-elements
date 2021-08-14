@@ -1,6 +1,4 @@
-import {
-  CSSResultGroup, html, nothing, TemplateResult,
-} from 'lit';
+import { CSSResultGroup, html, nothing, TemplateResult } from 'lit';
 import { property, query, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import '../../vscode-button';
@@ -43,6 +41,7 @@ export class VscodeSelectBase extends VscElement {
       this._filter = val as SearchMethod;
     } else {
       this._filter = 'fuzzy';
+      // eslint-disable-next-line no-console
       console.warn(
         `[VSCode Webview Elements] Invalid filter: "${val}", fallback to default. Valid values are: "contains", "fuzzy", "startsWith", "startsWithPerm".`,
         this,
@@ -67,9 +66,7 @@ export class VscodeSelectBase extends VscElement {
   }
 
   get options(): Option[] {
-    return this._options.map(({
-      label, value, description, selected,
-    }) => ({
+    return this._options.map(({ label, value, description, selected }) => ({
       label,
       value,
       description,
@@ -165,9 +162,7 @@ export class VscodeSelectBase extends VscElement {
         return;
       }
 
-      const {
-        innerText, value: elValue, description, selected,
-      } = el as VscodeOption;
+      const { innerText, value: elValue, description, selected } = el as VscodeOption;
 
       const value = (el as VscodeOption).hasAttribute('value') ? elValue : innerText;
 
@@ -337,8 +332,8 @@ export class VscodeSelectBase extends VscElement {
       opts[this._activeIndex].selected = !selected;
       this._selectedIndexes = [];
 
-      opts.forEach(({ index, selected }) => {
-        if (selected) {
+      opts.forEach(({ index, selected: s }) => {
+        if (s) {
           this._selectedIndexes.push(index);
         }
       });
@@ -438,15 +433,16 @@ export class VscodeSelectBase extends VscElement {
 
   protected _onSlotChange(): void {
     const stat = this._addOptionsFromSlottedElements();
+    const { values, selectedIndexes } = stat;
 
-    if (stat.selectedIndexes.length > 0) {
-      this._selectedIndex = stat.selectedIndexes[0];
-      this._selectedIndexes = stat.selectedIndexes;
-      this._value = stat.values[0];
-      this._values = stat.values;
+    if (selectedIndexes.length > 0) {
+      [this._selectedIndex] = selectedIndexes;
+      this._selectedIndexes = selectedIndexes;
+      [this._value] = values;
+      this._values = values;
     }
 
-    if (!this._multiple && !this.combobox && stat.selectedIndexes.length === 0) {
+    if (!this._multiple && !this.combobox && selectedIndexes.length === 0) {
       this._selectedIndex = 0;
     }
   }

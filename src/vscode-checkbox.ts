@@ -1,6 +1,4 @@
-import {
-  CSSResultGroup, html, nothing, TemplateResult,
-} from 'lit';
+import { CSSResultGroup, html, nothing, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators';
 import { classMap } from 'lit/directives/class-map';
 import { FormButtonWidgetBase } from './includes/form-button-widget/FormButtonWidgetBase';
