@@ -30,7 +30,7 @@ export class VscodeRadio extends FormButtonWidgetBase {
   disabled = false;
 
   @state()
-  _checked = false;
+  private _checked = false;
 
   @state()
   private isSlotEmpty = true;
