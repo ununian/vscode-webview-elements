@@ -144,23 +144,23 @@ export class VscodeMultiSelect extends VscodeSelectBase {
           (op) => op.index,
           (op, index) => {
             const selected = this._selectedIndexes.includes(op.index);
-            const optionClasses = classMap({
+            const optionClasses = {
               active: index === this._activeIndex,
               option: true,
               selected,
-            });
-            const checkboxClasses = classMap({
+            };
+            const checkboxClasses = {
               'checkbox-icon': true,
               checked: selected,
-            });
+            };
 
             return html`
               <li
-                class="${optionClasses}"
+                class="${classMap(optionClasses)}"
                 data-index="${op.index}"
                 data-filtered-index="${index}"
               >
-                <span class="${checkboxClasses}"></span>
+                <span class="${classMap(checkboxClasses)}"></span>
                 <span class="option-label">${op.label}</span>
               </li>
             `;

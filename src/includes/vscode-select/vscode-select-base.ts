@@ -517,13 +517,13 @@ export class VscodeSelectBase extends VscElement {
   }
 
   private _renderDropdown() {
-    const classes = classMap({
+    const classes = {
       dropdown: true,
       multiple: this._multiple,
-    });
+    };
 
     return html`
-      <div class="${classes}">
+      <div class="${classMap(classes)}">
         ${this._renderOptions()} ${this._renderDropdownControls()}
         ${this._renderDescription()}
       </div>

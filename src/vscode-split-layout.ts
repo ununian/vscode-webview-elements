@@ -228,59 +228,59 @@ export class VscodeSplitLayout extends VscElement {
   }
 
   render(): TemplateResult {
-    const startPaneStyles = styleMap({
+    const startPaneStyles = {
       bottom: `${this._startPaneBottom}px`,
       right: `${this._startPaneRight}px`,
-    });
+    };
 
-    const endPaneStyles = styleMap({
+    const endPaneStyles = {
       left: `${this._endPaneLeft}px`,
       top: `${this._endPaneTop}px`,
-    });
+    };
 
-    const handleStylesPropObj: {[prop: string]: string} = {
+    const handleStyles: {[prop: string]: string} = {
       left: `${this._handleLeft}px`,
       top: `${this._handleTop}px`,
     };
 
     if (this.split === 'vertical') {
-      handleStylesPropObj.marginLeft = `${0 - HANDLE_SIZE / 2}px`;
-      handleStylesPropObj.width = `${HANDLE_SIZE}px`;
+      handleStyles.marginLeft = `${0 - HANDLE_SIZE / 2}px`;
+      handleStyles.width = `${HANDLE_SIZE}px`;
     }
 
     if (this.split === 'horizontal') {
-      handleStylesPropObj.height = `${HANDLE_SIZE}px`;
-      handleStylesPropObj.marginTop = `${0 - HANDLE_SIZE / 2}px`;
+      handleStyles.height = `${HANDLE_SIZE}px`;
+      handleStyles.marginTop = `${0 - HANDLE_SIZE / 2}px`;
     }
 
-    const handleStyles = styleMap(handleStylesPropObj);
+    // const handleStyles = styleMap(handleStylesPropObj);
 
-    const handleOverlayClasses = classMap({
+    const handleOverlayClasses = {
       'handle-overlay': true,
       active: this._isDragActive,
       'split-vertical': this.split === 'vertical',
       'split-horizontal': this.split === 'horizontal',
-    });
+    };
 
-    const handleClasses = classMap({
+    const handleClasses = {
       handle: true,
       hover: this._hover,
       hide: this._hide,
       'split-vertical': this.split === 'vertical',
       'split-horizontal': this.split === 'horizontal',
-    });
+    };
 
     return html`
-      <div class="start" style="${startPaneStyles}">
+      <div class="start" style="${styleMap(startPaneStyles)}">
         <slot name="start"></slot>
       </div>
-      <div class="end" style="${endPaneStyles}">
+      <div class="end" style="${styleMap(endPaneStyles)}">
         <slot name="end"></slot>
       </div>
-      <div class="${handleOverlayClasses}"></div>
+      <div class="${classMap(handleOverlayClasses)}"></div>
       <div
-        class="${handleClasses}"
-        style="${handleStyles}"
+        class="${classMap(handleClasses)}"
+        style="${styleMap(handleStyles)}"
         @mouseover="${this._handleMouseOver}"
         @mouseout="${this._handleMouseOut}"
         @mousedown="${this._handleMouseDown}"

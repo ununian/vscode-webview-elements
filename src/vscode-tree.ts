@@ -626,17 +626,17 @@ export class VscodeTree extends VscElement {
   }
 
   render(): TemplateResult {
-    const classes = classMap({
+    const classes = {
       multi: this.multiline,
       single: !this.multiline,
       wrapper: true,
       'focused-none': !this._focusedItem,
       'selection-none': !this._selectedItem,
       'selection-single': this._selectedItem !== null,
-    });
+    };
 
     return html`
-      <div @click="${this.onComponentClick}" class="${classes}">
+      <div @click="${this.onComponentClick}" class="${classMap(classes)}">
         <ul>
           ${this.renderTree(this._data)}
         </ul>

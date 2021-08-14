@@ -642,18 +642,18 @@ export class VscodeTable extends VscElement {
 
   render(): TemplateResult {
     const sashes = this._sashPositions.map((val, index) => {
-      const classes = classMap({
+      const classes = {
         sash: true,
         hover: this._sashHovers[index],
         resizable: this.resizable,
-      });
+      };
 
       const left = `${val}%`;
 
       return this.resizable
         ? html`
             <div
-              class="${classes}"
+              class="${classMap(classes)}"
               data-index="${index}"
               style="${styleMap({left})}"
               @mousedown="${this._onSashMouseDown}"
@@ -665,7 +665,7 @@ export class VscodeTable extends VscElement {
             </div>
           `
         : html`<div
-            class="${classes}"
+            class="${classMap(classes)}"
             data-index="${index}"
             style="${styleMap({left})}"
           >
@@ -673,15 +673,15 @@ export class VscodeTable extends VscElement {
           </div>`;
     });
 
-    const wrapperClasses = classMap({
+    const wrapperClasses = {
       wrapper: true,
       'select-disabled': this._isDragging,
       'resize-cursor': this._isDragging,
       'compact-view': this.compact,
-    });
+    };
 
     return html`
-      <div class="${wrapperClasses}">
+      <div class="${classMap(wrapperClasses)}">
         <div class="header" @slotchange="${this._onHeaderSlotChange}">
           <slot name="caption"></slot>
           <div class="header-slot-wrapper">

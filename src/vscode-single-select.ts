@@ -198,14 +198,14 @@ export class VscodeSingleSelect extends VscodeSelectBase {
     const list = this.combobox ? this._filteredOptions : this._options;
 
     const options = list.map((op, index) => {
-      const classes = classMap({
+      const classes = {
         option: true,
         active: index === this._activeIndex,
-      });
+      };
 
       return html`
         <li
-          class="${classes}"
+          class="${classMap(classes)}"
           data-index="${op.index}"
           data-filtered-index="${index}"
         >

@@ -97,7 +97,7 @@ export class VscodeCollapsible extends VscElement {
   }
 
   render(): TemplateResult {
-    const classes = classMap({collapsible: true, open: this.open});
+    const classes = {collapsible: true, open: this.open};
 
     const icon = html`<svg
       width="16"
@@ -115,7 +115,7 @@ export class VscodeCollapsible extends VscElement {
     </svg>`;
 
     return html`
-      <div class="${classes}">
+      <div class="${classMap(classes)}">
         <div
           class="collapsible-header"
           tabindex="0"

@@ -59,15 +59,15 @@ export class VscodeCheckbox extends FormButtonWidgetBase {
 
   render(): TemplateResult {
     const isLabelEmpty = !this.label && this.isSlotEmpty;
-    const iconClasses = classMap({
+    const iconClasses = {
       icon: true,
       checked: this.checked,
       'before-empty-label': isLabelEmpty,
-    });
-    const labelInnerClasses = classMap({
+    };
+    const labelInnerClasses = {
       'label-inner': true,
       empty: isLabelEmpty,
-    });
+    };
 
     const icon = html`<svg
       width="16"
@@ -94,9 +94,9 @@ export class VscodeCheckbox extends FormButtonWidgetBase {
           value="${this.value}"
           tabindex="-1"
         />
-        <div class="${iconClasses}">${check}</div>
+        <div class="${classMap(iconClasses)}">${check}</div>
         <label for="${this._uid}" class="label" @click="${this._handleClick}">
-          <span class="${labelInnerClasses}">
+          <span class="${classMap(labelInnerClasses)}">
             <slot @slotchange="${this._handleSlotChange}">${this.label}</slot>
           </span>
         </label>

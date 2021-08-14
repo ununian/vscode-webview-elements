@@ -450,18 +450,18 @@ export class VscodeInputbox extends VscElement {
     const minHeight = calcHeightFromLines(this.lines);
     const maxHeight = calcHeightFromLines(this.maxLines);
 
-    const measurerStyles = styleMap({
+    const measurerStyles = {
       minHeight: `${minHeight}px`,
       maxHeight: `${maxHeight}px`,
-    });
-    const textareaStyles = styleMap({
+    };
+    const textareaStyles = {
       height: `${this._textareaHeight}px`,
-    });
-    const containerClasses = classMap({
+    };
+    const containerClasses = {
       container: true,
       severity: this.severity !== Severity.DEFAULT,
       focused: this.focused,
-    });
+    };
     const measurerContent = this.value
       ? this.value
           .split('\n')
@@ -485,10 +485,10 @@ export class VscodeInputbox extends VscElement {
         maxlength="${ifDefined(this.maxLength)}"
         placeholder="${this.placeholder}"
         ?readonly="${this.readonly}"
-        style="${textareaStyles}"
+        style="${styleMap(textareaStyles)}"
         .value="${this.value}"
       ></textarea>
-      <div class="content-measurer" style="${measurerStyles}">
+      <div class="content-measurer" style="${styleMap(measurerStyles)}">
         ${measurerContent}
       </div>
     `;
@@ -517,7 +517,7 @@ export class VscodeInputbox extends VscElement {
     `;
 
     return html`
-      <div class="${containerClasses}">
+      <div class="${classMap(containerClasses)}">
         <div class="helper"><slot name="helper"></slot></div>
         <div class="input-wrapper">
           ${this.multiline ? textarea : input} ${this.message ? message : ''}
